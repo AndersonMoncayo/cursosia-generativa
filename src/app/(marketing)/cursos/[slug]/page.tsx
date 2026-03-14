@@ -5,15 +5,7 @@ import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import { Clock, BarChart, CheckSquare } from 'lucide-react'
 
-export async function generateStaticParams() {
-  try {
-    const supabase = await createClient()
-    const { data } = await supabase.from('courses').select('slug')
-    return data?.map(c => ({ slug: c.slug })) ?? []
-  } catch (e) {
-    return []
-  }
-}
+export const dynamic = 'force-dynamic'
 
 export default async function CourseDetail({
   params,
