@@ -1,0 +1,13 @@
+# CursosIA Generativa
+> [https://cursosIAgenerativa.com](https://cursosIAgenerativa.com)
+> Plataforma de cursos de IA Generativa en español
+
+## Cursos
+- IA Generativa desde Cero: $67
+- Automatización con N8N e IA: $85
+- Prompt Engineering Profesional: Gratis
+- IA para Negocios: $47
+
+## Instructor
+Anderson Moncayo — Ingeniero de Sistemas,
+Especialista en IA, Master UNIR España
