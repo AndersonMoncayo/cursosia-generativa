@@ -19,14 +19,14 @@ export default function EmailVerification() {
               <span className="text-[10px] font-bold uppercase tracking-widest text-white">EMAIL_VERIFY.MSG</span>
             </div>
             <div className="p-8 text-center text-black">
-              <div className="text-7xl mb-4">📬</div>
+              <div className="text-7xl mb-4 text-primary material-symbols-outlined">mark_email_read</div>
               <h1 className="text-3xl font-black uppercase mb-4">¡Revisa tu Correo!</h1>
               <p className="text-slate-600 font-bold mb-6">
                 Te hemos enviado un enlace de verificación. Ábrelo para activar tu cuenta.
               </p>
               <div className="bg-primary/10 border-2 border-primary p-4 mb-6">
                 <p className="text-black font-bold text-sm uppercase">
-                  ⚡ Recuerda revisar tu carpeta de spam si no lo encuentras.
+                  ATENCION: Recuerda revisar tu carpeta de spam si no lo encuentras.
                 </p>
               </div>
               <Link href="/login" className="block w-full bg-primary border-4 border-black py-4 font-black uppercase tracking-widest retro-shadow retro-btn text-black hover:bg-white transition-colors">
