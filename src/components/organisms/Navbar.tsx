@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
+import { Menu, X } from 'lucide-react'
 
 export const Navbar: React.FC = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -51,9 +52,9 @@ export const Navbar: React.FC = () => {
             {user ? (
               <div className="flex items-center gap-4">
                 <span className="text-xs font-bold text-slate-400 border-2 border-slate-800 px-3 py-1 uppercase">{user.email}</span>
-                <Link href="/dashboard" className="text-slate-300 font-bold uppercase hover:text-primary transition-colors text-sm">Dashboard</Link>
+                <Link href="/dashboard" className="bg-primary text-black font-black px-6 py-2 uppercase border-2 border-black retro-shadow retro-btn text-sm hover:bg-white transition-colors">PANEL</Link>
                 <button onClick={handleLogout} className="bg-black text-white font-black px-6 py-2 uppercase border-2 border-white retro-shadow retro-btn text-sm hover:bg-red-500 hover:border-black transition-colors">
-                  Cerrar Sesión
+                  SALIR
                 </button>
               </div>
             ) : (
@@ -68,7 +69,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white p-2 border-2 border-black hover:bg-slate-800"
             >
-              <span className="material-symbols-outlined">{isMobileMenuOpen ? 'close' : 'menu'}</span>
+              {isMobileMenuOpen ? <X className="w-6 h-6"/> : <Menu className="w-6 h-6"/>}
             </button>
           </div>
         </div>
@@ -84,10 +85,10 @@ export const Navbar: React.FC = () => {
               <div className="flex flex-col gap-2 mt-4">
                  <span className="text-xs font-bold text-slate-400 text-center uppercase">{user.email}</span>
                  <Link href="/dashboard" className="bg-primary text-black font-black px-4 py-3 uppercase border-2 border-black text-center retro-shadow">
-                   Dashboard
+                   PANEL
                  </Link>
                  <button onClick={handleLogout} className="bg-black text-white font-black px-4 py-3 uppercase border-2 border-white text-center mt-2 hover:bg-red-500 hover:border-black transition-colors">
-                   Cerrar Sesión
+                   SALIR
                  </button>
               </div>
             ) : (

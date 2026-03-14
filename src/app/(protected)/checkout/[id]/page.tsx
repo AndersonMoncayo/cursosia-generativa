@@ -84,7 +84,7 @@ export default function Checkout() {
       
       <main className="max-w-5xl mx-auto px-6 py-12 md:py-20">
         <div className="mb-8">
-          <Link href={`/curso/${course.slug}`} className="text-primary font-black text-sm uppercase hover:underline">← Volver al curso</Link>
+          <Link href={`/cursos/${course.slug}`} className="text-primary font-black text-sm uppercase hover:underline">← Volver al curso</Link>
         </div>
 
         <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8">

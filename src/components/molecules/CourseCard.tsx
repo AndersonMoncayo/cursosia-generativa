@@ -20,9 +20,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, progress, isPurc
         <span className="text-xs font-bold text-white uppercase tracking-widest">{course.slug.slice(0,10)}.exe</span>
       </div>
       
-      {isPurchased && course.image_url && (
+      {isPurchased && course.thumbnail_url && (
         <div className={`h-32 border-b-4 border-black flex items-center justify-center relative bg-primary`}>
-          <img src={course.image_url} alt={course.title} className="w-full h-full object-cover" />
+          <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover" />
         </div>
       )}
 
@@ -58,7 +58,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, progress, isPurc
               </div>
             </div>
             
-            <Link href={`/curso/${course.slug}/learn`} className="w-full block bg-black text-white font-black uppercase py-3 border-2 border-transparent text-center text-sm hover:bg-primary hover:text-black hover:border-black transition-colors">
+            <Link href={`/cursos/${course.slug}/learn`} className="w-full block bg-black text-white font-black uppercase py-3 border-2 border-transparent text-center text-sm hover:bg-primary hover:text-black hover:border-black transition-colors">
               Continuar
             </Link>
           </div>
@@ -70,7 +70,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, progress, isPurc
                 {course.price === 0 ? 'GRATIS' : `$${course.price}`}
               </span>
             </div>
-            <Link href={`/curso/${course.slug}`} className="bg-black text-white font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors block text-center">
+            <Link href={`/cursos/${course.slug}`} className="bg-black text-white font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors block text-center">
               Ver Módulo
             </Link>
           </div>

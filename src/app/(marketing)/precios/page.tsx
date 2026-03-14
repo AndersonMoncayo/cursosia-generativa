@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/organisms/Navbar'
 import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
+import { CheckSquare, X } from 'lucide-react'
 
 export default function Pricing() {
   return (
@@ -29,10 +30,10 @@ export default function Pricing() {
               <span className="text-5xl font-black text-black">GRATIS</span>
             </div>
             <ul className="space-y-4 font-bold text-sm text-black mb-10 flex-grow">
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_box</span>Acceso a Cursos Free</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_box</span>Comunidad Básica</li>
-              <li className="flex items-start gap-3 text-slate-400"><span className="material-symbols-outlined text-slate-300 text-lg">close</span>Sin Certificados</li>
-              <li className="flex items-start gap-3 text-slate-400"><span className="material-symbols-outlined text-slate-300 text-lg">close</span>Soporte Limitado</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-green-500 w-5 h-5"/>Acceso a Cursos Free</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-green-500 w-5 h-5"/>Comunidad Básica</li>
+              <li className="flex items-start gap-3 text-slate-400"><X className="text-slate-300 w-5 h-5"/>Sin Certificados</li>
+              <li className="flex items-start gap-3 text-slate-400"><X className="text-slate-300 w-5 h-5"/>Soporte Limitado</li>
             </ul>
             <Link href="/login" className="w-full bg-white text-black font-black uppercase py-4 border-4 border-black retro-btn block text-center text-lg mt-auto">
                Iniciar Gratis
@@ -51,10 +52,10 @@ export default function Pricing() {
               <span className="text-black font-bold uppercase tracking-widest text-sm ml-2 border-l-2 border-black pl-2">USD / Módulo</span>
             </div>
             <ul className="space-y-4 font-bold text-sm text-black mb-10 flex-grow">
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-black text-lg">check_box</span>Módulos Nivel Intermedio/Avanzado</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-black text-lg">check_box</span>Proyectos Reales & Datasets</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-black text-lg">check_box</span>Certificado On-Chain</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-black text-lg">check_box</span>Discord Privado</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-black w-5 h-5"/>Módulos Nivel Intermedio/Avanzado</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-black w-5 h-5"/>Proyectos Reales & Datasets</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-black w-5 h-5"/>Certificado On-Chain</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-black w-5 h-5"/>Discord Privado</li>
             </ul>
             <Link href="/cursos" className="w-full bg-black text-white font-black uppercase py-4 border-4 border-black retro-btn block text-center text-lg mt-auto hover:bg-white hover:text-black transition-colors">
                Ver Cursos Pro
@@ -70,10 +71,10 @@ export default function Pricing() {
               <span className="text-slate-400 font-bold uppercase tracking-widest text-sm ml-2 border-l-2 border-slate-600 pl-2">USD Único</span>
             </div>
             <ul className="space-y-4 font-bold text-sm text-white mb-10 flex-grow">
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-primary text-lg">check_box</span>Todos los cursos actuales</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-primary text-lg">check_box</span>Cursos futuros gratis</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-primary text-lg">check_box</span>Mentoría 1:1 (1 hr)</li>
-              <li className="flex items-start gap-3"><span className="material-symbols-outlined text-primary text-lg">check_box</span>Prioridad Soporte Nivel 1</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-primary w-5 h-5"/>Todos los cursos actuales</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-primary w-5 h-5"/>Cursos futuros gratis</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-primary w-5 h-5"/>Mentoría 1:1 (1 hr)</li>
+              <li className="flex items-start gap-3"><CheckSquare className="text-primary w-5 h-5"/>Prioridad Soporte Nivel 1</li>
             </ul>
             <button className="w-full bg-white text-black font-black uppercase py-4 border-4 border-black block text-center text-lg mt-auto opacity-50 cursor-not-allowed">
                Próximamente

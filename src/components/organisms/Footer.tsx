@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { Share2, Mail } from 'lucide-react'
 
 export const Footer: React.FC = () => {
   return (
@@ -15,10 +16,10 @@ export const Footer: React.FC = () => {
           </p>
           <div className="flex gap-4">
             <a href="#" className="w-10 h-10 border-2 border-slate-700 flex items-center justify-center hover:bg-slate-800 hover:border-white transition-colors">
-              <span className="material-symbols-outlined text-white">share</span>
+              <Share2 className="text-white w-5 h-5" />
             </a>
             <a href="#" className="w-10 h-10 border-2 border-slate-700 flex items-center justify-center hover:bg-slate-800 hover:border-white transition-colors">
-              <span className="material-symbols-outlined text-white">alternate_email</span>
+              <Mail className="text-white w-5 h-5" />
             </a>
           </div>
         </div>

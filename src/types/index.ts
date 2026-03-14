@@ -14,8 +14,9 @@ export interface Course {
   long_description?: string | null
   price: number
   original_price?: number | null
-  image_url?: string | null
-  color?: string
+  image_url?: string;
+  thumbnail_url?: string;
+  color?: string;
   instructor: string
   duration_hours?: number | null
   lessons_count: number

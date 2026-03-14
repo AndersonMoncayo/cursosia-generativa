@@ -4,6 +4,7 @@ import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import type { Course } from '@/types'
 import { CourseCard } from '@/components/molecules/CourseCard'
+import { Rocket, CreditCard } from 'lucide-react'
 
 export const revalidate = 3600 // ISR revalidate every hour
 
@@ -50,10 +51,10 @@ export default async function Home() {
 
         <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
           <Link href="/cursos" className="bg-primary text-black font-black px-10 py-5 text-xl uppercase border-4 border-black retro-shadow-lg retro-btn flex items-center justify-center gap-3 w-full sm:w-auto hover:bg-white transition-colors">
-            Explorar Cursos <span className="material-symbols-outlined">rocket_launch</span>
+            Explorar Cursos <Rocket className="w-6 h-6" />
           </Link>
           <Link href="/precios" className="bg-white text-black font-black px-10 py-5 text-xl uppercase border-4 border-black retro-shadow-lg retro-btn flex items-center justify-center gap-3 w-full sm:w-auto hover:bg-primary transition-colors">
-            Ver Planes <span className="material-symbols-outlined">payments</span>
+            Ver Planes <CreditCard className="w-6 h-6" />
           </Link>
         </div>
       </section>
