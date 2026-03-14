@@ -18,18 +18,28 @@ export async function generateStaticParams() {
 export default async function CourseDetail({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
+  const { slug } = await params
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()
-  const { data: course, error } = await supabase
-    .from('courses')
-    .select('*')
-    .eq('slug', params.slug)
-    .single()
+  
+  let course = null
+  try {
+    const { data, error } = await supabase
+      .from('courses')
+      .select('*')
+      .eq('slug', slug)
+      .single()
+      
+    if (error) throw error
+    course = data
+  } catch (error) {
+    notFound()
+  }
 
-  if (error || !course) {
+  if (!course) {
     notFound()
   }
 
