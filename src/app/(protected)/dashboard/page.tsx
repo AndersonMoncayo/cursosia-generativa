@@ -32,9 +32,15 @@ export default async function Dashboard() {
              <h1 className="text-4xl md:text-6xl font-black uppercase text-white tracking-tighter mb-4">
                HOLA, <span className="text-primary italic">ESTUDIANTE</span>
              </h1>
-             <div className="inline-flex items-center gap-3 bg-black border-4 border-primary px-4 py-2 retro-shadow text-primary font-mono text-sm uppercase">
-               <span>SYS.USER:</span>
-               <span className="text-white font-black">{user.email}</span>
+             <div className="flex flex-col md:flex-row gap-4">
+               <div className="inline-flex items-center gap-3 bg-black border-4 border-primary px-4 py-2 retro-shadow text-primary font-mono text-sm uppercase">
+                 <span>SYS.USER:</span>
+                 <span className="text-white font-black">{user.email}</span>
+               </div>
+               <div className="inline-flex items-center gap-3 bg-black border-4 border-slate-700 px-4 py-2 retro-shadow text-slate-400 font-mono text-sm uppercase">
+                 <span>REGISTRADO:</span>
+                 <span className="text-white font-black">{new Date(user.created_at).toLocaleDateString()}</span>
+               </div>
              </div>
            </div>
            
@@ -92,7 +98,7 @@ export default async function Dashboard() {
                              <div className="h-full bg-primary" style={{ width: `${enr.progress}%` }}></div>
                            </div>
                          </div>
-                         <Link href={`/cursos/${enr.courses.slug}/learn`} className="bg-black text-white font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors flex items-center justify-center gap-2 w-full md:w-auto inline-flex">
+                         <Link href={`/dashboard/curso/${enr.courses.slug}`} className="bg-black text-white font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors flex items-center justify-center gap-2 w-full md:w-auto inline-flex">
                            <Play className="w-4 h-4" /> CONTINUAR MÓDULO
                          </Link>
                       </div>
@@ -108,23 +114,30 @@ export default async function Dashboard() {
                ACCESOS RÁPIDOS
             </h2>
             
-            <Link href="/cursos" className="bg-primary border-4 border-black p-6 flex items-center gap-4 group retro-shadow block hover:-translate-y-1 transition-transform">
+            <Link href="/cursos" className="bg-background-dark border-4 border-slate-700 p-6 flex items-center gap-4 group retro-shadow block hover:border-primary transition-colors hover:bg-[#1acb5b]">
                <div className="w-12 h-12 bg-black flex items-center justify-center text-primary group-hover:text-white transition-colors">
                  <BookOpen className="w-6 h-6" />
                </div>
                <div>
-                  <h3 className="font-black text-black uppercase text-lg">CATÁLOGO</h3>
-                  <span className="text-black/80 font-bold text-sm uppercase">Nuevos Módulos</span>
+                  <h3 className="font-black text-white group-hover:text-black uppercase text-lg transition-colors">CATÁLOGO</h3>
                </div>
             </Link>
 
-            <Link href="/precios" className="bg-white border-4 border-black p-6 flex items-center gap-4 group retro-shadow block hover:-translate-y-1 transition-transform">
-               <div className="w-12 h-12 bg-black flex items-center justify-center text-white group-hover:text-primary transition-colors">
+            <Link href="/precios" className="bg-background-dark border-4 border-slate-700 p-6 flex items-center gap-4 group retro-shadow block hover:border-primary transition-colors hover:bg-[#1acb5b]">
+               <div className="w-12 h-12 bg-black flex items-center justify-center text-primary group-hover:text-white transition-colors">
                  <CreditCard className="w-6 h-6" />
                </div>
                <div>
-                  <h3 className="font-black text-black uppercase text-lg">PLANES PRO</h3>
-                  <span className="text-black/60 font-bold text-sm uppercase">Mejora tu acceso</span>
+                  <h3 className="font-black text-white group-hover:text-black uppercase text-lg transition-colors">PRECIOS</h3>
+               </div>
+            </Link>
+
+            <Link href="/blog" className="bg-background-dark border-4 border-slate-700 p-6 flex items-center gap-4 group retro-shadow block hover:border-primary transition-colors hover:bg-[#1acb5b]">
+               <div className="w-12 h-12 bg-black flex items-center justify-center text-primary group-hover:text-white transition-colors">
+                 <BookOpen className="w-6 h-6" />
+               </div>
+               <div>
+                  <h3 className="font-black text-white group-hover:text-black uppercase text-lg transition-colors">BLOG</h3>
                </div>
             </Link>
           </div>
