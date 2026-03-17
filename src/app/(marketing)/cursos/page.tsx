@@ -4,6 +4,7 @@ import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import type { Course } from '@/types'
 import { CourseCard } from '@/components/molecules/CourseCard'
+import { CourseFilters } from '@/components/molecules/CourseFilters'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -22,23 +23,26 @@ const niveles = [
 ]
 const PAGE_SIZE = 8
 
-export default async function Catalog({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+export const revalidate = 600
+
+export default async function Catalog({ params, searchParams }: { params: Promise<{}>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const resolvedParams = await searchParams
   const supabase = await createClient()
   
   // Extraer params
-  const pPage = typeof searchParams.page === 'string' ? parseInt(searchParams.page, 10) : 1
-  const currentPage = isNaN(pPage) || pPage < 1 ? 1 : pPage
-  
-  // fetch
-  const { data: courses } = await supabase
+  const level = typeof resolvedParams.level === 'string' ? resolvedParams.level : null
+  const query = supabase
     .from('courses')
     .select('*')
     .eq('is_published', true)
-  
+    .is('deleted_at', null)
+
+  if (level && level !== 'todos') {
+    query.eq('level', level)
+  }
+
+  const { data: courses } = await query.order('created_at', { ascending: false })
+
   return (
     <div className="bg-background-dark min-h-screen font-display text-slate-100 grid-pattern">
       <Navbar />
@@ -46,48 +50,7 @@ export default async function Catalog({
       <main className="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row gap-12">
         {/* Sidebar */}
         <aside className="w-full md:w-64 shrink-0">
-          <div className="bg-white border-4 border-black p-6 retro-shadow text-black sticky top-24">
-            <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-4 border-black pb-2">
-              Filtros_Sys
-            </h2>
-            
-            <div className="mb-8 hidden">
-               {/* Search placeholder */}
-            </div>
-
-            <div className="mb-8">
-              <h3 className="font-bold uppercase tracking-widest text-sm text-slate-500 mb-4">Nivel</h3>
-              <div className="space-y-3">
-                {niveles.map((nivel) => (
-                  <label
-                    key={nivel.value}
-                    className="flex items-center gap-2 cursor-pointer py-1"
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={nivel.value === 'todos'} // Example placeholder logic
-                      readOnly
-                      style={{
-                        width: '16px',
-                        height: '16px',
-                        accentColor: '#00FF41',
-                        cursor: 'pointer',
-                        flexShrink: 0
-                      }}
-                    />
-                    <span style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: 'bold' }}>
-                      {nivel.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <button className="w-full bg-black text-white font-black uppercase py-3 border-2 border-transparent hover:bg-primary hover:text-black hover:border-black transition-colors">
-              Reset Filtros
-            </button>
-          </div>
+              <CourseFilters currentLevel={level} />
         </aside>
 
         {/* Content */}
