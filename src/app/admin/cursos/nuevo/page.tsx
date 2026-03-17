@@ -72,9 +72,9 @@ export default function NuevoCurso() {
         })
       })
 
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error || 'Error al crear el curso')
+      const result = await res.json()
+      if (!res.ok || !result.success) {
+        throw new Error(result.error || 'Error al crear el curso')
       }
 
       toast.success('Curso creado exitosamente')
@@ -145,6 +145,7 @@ export default function NuevoCurso() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div>
+             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Instructor</label>
              <input type="text" value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} 
                className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
            </div>

@@ -11,6 +11,7 @@ export default async function AdminCursos() {
   const { data: courses, error } = await supabase
     .from('courses')
     .select('*')
+    .is('deleted_at', null)
     .order('created_at', { ascending: false })
 
   if (error) {

@@ -33,7 +33,8 @@ export async function GET() {
   const supabase = await createServerSupabase()
   const { data, error } = await supabase
     .from('courses')
-    .select('id, title, instructor, price, is_published, created_at, enrollments(id)')
+    .select('id, title, level, instructor, price, is_published, created_at, updated_at, enrollments(id)')
+    .is('deleted_at', null)
     .order('created_at', { ascending: false })
     
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -57,10 +58,11 @@ export async function POST(req: Request) {
     }
     
     const supabase = await createServerSupabase()
-    const { data, error } = await supabase.from('courses').insert(parsed.data).select().single()
+    const finalData = { ...parsed.data, updated_at: new Date().toISOString() }
+    const { data, error } = await supabase.from('courses').insert(finalData).select().single()
     if (error) throw error
-    return NextResponse.json(data)
+    return NextResponse.json({ success: true, data })
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }

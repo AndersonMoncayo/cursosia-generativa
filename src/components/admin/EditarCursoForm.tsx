@@ -73,9 +73,9 @@ export default function EditarCursoForm({ curso }: { curso: any }) {
         })
       })
 
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error || 'Error al actualizar el curso')
+      const result = await res.json()
+      if (!res.ok || !result.success) {
+        throw new Error(result.error || 'Error al actualizar el curso')
       }
 
       toast.success('Curso actualizado')

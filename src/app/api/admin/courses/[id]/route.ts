@@ -39,23 +39,25 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     }
 
     const supabase = await createServerSupabase()
-    const { data, error } = await supabase.from('courses').update(parsed.data).eq('id', id).select().single()
+    const finalData = { ...parsed.data, updated_at: new Date().toISOString() }
+    const { data, error } = await supabase.from('courses').update(finalData).eq('id', id).select().single()
     if (error) throw error
-    return NextResponse.json(data)
+    return NextResponse.json({ success: true, data })
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  if (!(await checkAdmin())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!(await checkAdmin())) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   try {
     const supabase = await createServerSupabase()
-    const { error } = await supabase.from('courses').delete().eq('id', id)
+    // Soft Delete: en vez de .delete(), hacemos un update a deleted_at
+    const { error } = await supabase.from('courses').update({ deleted_at: new Date().toISOString() }).eq('id', id)
     if (error) throw error
     return NextResponse.json({ success: true })
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
