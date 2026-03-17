@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://cursosia-generativa.vercel.app/forgot-password</loc><lastmod>2026-03-17T05:21:01.814Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://cursosia-generativa.vercel.app/register</loc><lastmod>2026-03-17T05:21:01.815Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://cursosia-generativa.vercel.app/verify-email</loc><lastmod>2026-03-17T05:21:01.815Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://cursosia-generativa.vercel.app/precios</loc><lastmod>2026-03-17T05:21:01.815Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://cursosia-generativa.vercel.app/forgot-password</loc><lastmod>2026-03-17T05:36:32.736Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://cursosia-generativa.vercel.app/register</loc><lastmod>2026-03-17T05:36:32.736Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://cursosia-generativa.vercel.app/verify-email</loc><lastmod>2026-03-17T05:36:32.736Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://cursosia-generativa.vercel.app/precios</loc><lastmod>2026-03-17T05:36:32.736Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

@@ -20,7 +20,7 @@ export default function NuevoCurso() {
     price: 0,
     thumbnail_url: '',
     image_url: '',
-    instructor_nombre: '',
+    instructor: '',
     is_published: false
   })
   const [file, setFile] = useState<File | null>(null)
@@ -145,8 +145,7 @@ export default function NuevoCurso() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div>
-             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Instructor Nombre</label>
-             <input type="text" value={formData.instructor_nombre} onChange={e => setFormData({...formData, instructor_nombre: e.target.value})} 
+             <input type="text" value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} 
                className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
            </div>
            <div>

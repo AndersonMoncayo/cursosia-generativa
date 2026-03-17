@@ -2,11 +2,9 @@ export const dynamic = 'force-dynamic'
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { createClient as createServerSupabase } from '@/lib/supabase/server'
+import { z } from 'zod'
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// remove Admin client
 
 async function checkAdmin() {
   const supabase = await createServerSupabase()
@@ -16,12 +14,32 @@ async function checkAdmin() {
   return profile?.role === 'admin'
 }
 
+const courseSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  slug: z.string().min(1, 'Slug is required'),
+  description: z.string().optional(),
+  level: z.string().optional(),
+  duration_hours: z.number().optional(),
+  price: z.number().optional(),
+  image_url: z.string().optional(),
+  thumbnail_url: z.string().optional(),
+  instructor: z.string().optional(),
+  is_published: z.boolean().optional()
+})
+
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await checkAdmin())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   try {
-    const body = await req.json()
-    const { data, error } = await supabaseAdmin.from('courses').update(body).eq('id', id).select().single()
+    const rawBody = await req.json()
+    const parsed = courseSchema.safeParse(rawBody)
+    
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Validation Error', details: parsed.error.format() }, { status: 400 })
+    }
+
+    const supabase = await createServerSupabase()
+    const { data, error } = await supabase.from('courses').update(parsed.data).eq('id', id).select().single()
     if (error) throw error
     return NextResponse.json(data)
   } catch (error: any) {
@@ -33,7 +51,8 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   if (!(await checkAdmin())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await params
   try {
-    const { error } = await supabaseAdmin.from('courses').delete().eq('id', id)
+    const supabase = await createServerSupabase()
+    const { error } = await supabase.from('courses').delete().eq('id', id)
     if (error) throw error
     return NextResponse.json({ success: true })
   } catch (error: any) {

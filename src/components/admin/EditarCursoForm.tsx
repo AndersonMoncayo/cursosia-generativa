@@ -21,7 +21,7 @@ export default function EditarCursoForm({ curso }: { curso: any }) {
     price: curso.price || 0,
     thumbnail_url: curso.thumbnail_url || '',
     image_url: curso.image_url || '',
-    instructor_nombre: curso.instructor_nombre || '',
+    instructor: curso.instructor || '',
     is_published: curso.is_published || false
   })
   const [file, setFile] = useState<File | null>(null)
@@ -146,8 +146,8 @@ export default function EditarCursoForm({ curso }: { curso: any }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div>
-             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Instructor Nombre</label>
-             <input type="text" value={formData.instructor_nombre} onChange={e => setFormData({...formData, instructor_nombre: e.target.value})} 
+             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Instructor</label>
+             <input type="text" value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} 
                style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
            </div>
            <div>
