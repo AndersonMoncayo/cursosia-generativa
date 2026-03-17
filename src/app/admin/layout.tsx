@@ -47,14 +47,14 @@ export default async function AdminLayout({
             <Users className="w-5 h-5 group-hover:text-primary" />
             Usuarios
           </Link>
-          <div className="flex items-center gap-4 text-slate-500 font-bold uppercase py-3 cursor-not-allowed">
-            <FileText className="w-5 h-5" />
-            Posts (WIP)
-          </div>
-          <div className="flex items-center gap-4 text-slate-500 font-bold uppercase py-3 cursor-not-allowed">
-            <BarChart className="w-5 h-5" />
-            Estadísticas (WIP)
-          </div>
+          <Link href="/admin/posts" className="flex items-center gap-4 text-white font-bold uppercase py-3 hover:text-primary transition-colors group">
+            <FileText className="w-5 h-5 group-hover:text-primary" />
+            Posts
+          </Link>
+          <Link href="/admin/estadisticas" className="flex items-center gap-4 text-white font-bold uppercase py-3 hover:text-primary transition-colors group">
+            <BarChart className="w-5 h-5 group-hover:text-primary" />
+            Estadísticas
+          </Link>
         </nav>
 
         <div className="mb-8 pt-8 border-t-4 border-slate-800">

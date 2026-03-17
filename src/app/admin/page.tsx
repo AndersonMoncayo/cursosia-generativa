@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { Users, BookOpen, GraduationCap, DollarSign } from 'lucide-react'
 
+import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
+
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
@@ -11,12 +13,22 @@ export default async function AdminDashboard() {
   const { count: totalCourses } = await supabase.from('courses').select('*', { count: 'exact', head: true })
   const { count: totalEnrollments } = await supabase.from('enrollments').select('*', { count: 'exact', head: true })
 
-  // Ultimos registros
-  const { data: latestUsers } = await supabase
-    .from('profiles')
-    .select('email, full_name, role, created_at')
-    .order('created_at', { ascending: false })
-    .limit(5)
+  // Ultimos registros combinando auth.users y profiles con supabaseAdmin
+  const supabaseAdmin = createSupabaseAdmin(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+  
+  const { data: { users } } = await supabaseAdmin.auth.admin.listUsers()
+  const { data: profiles } = await supabaseAdmin.from('profiles').select('*')
+
+  const latestUsers = users.map(u => ({
+    id: u.id,
+    email: u.email,
+    created_at: u.created_at,
+    role: profiles?.find(p => p.id === u.id)?.role || 'student',
+    full_name: profiles?.find(p => p.id === u.id)?.full_name || 'SIN NOMBRE'
+  })).sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5)
 
   return (
     <div className="space-y-10">
