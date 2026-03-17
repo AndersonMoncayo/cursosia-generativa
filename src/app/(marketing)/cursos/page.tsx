@@ -31,14 +31,14 @@ export default async function Catalog({ params, searchParams }: { params: Promis
   
   // Extraer params
   const level = typeof resolvedParams.level === 'string' ? resolvedParams.level : null
-  const query = supabase
+  let query = supabase
     .from('courses')
     .select('*')
     .eq('is_published', true)
     .is('deleted_at', null)
 
   if (level && level !== 'todos') {
-    query.eq('level', level)
+    query = query.eq('level', level)
   }
 
   const { data: courses } = await query.order('created_at', { ascending: false })
@@ -61,7 +61,7 @@ export default async function Catalog({ params, searchParams }: { params: Promis
                  Catálogo
                </h1>
                <p className="text-primary font-bold uppercase mt-2 tracking-widest">
-                 {courses?.length || 0} módulos encontrados
+                 {courses?.length || 0} cursos encontrados
                </p>
             </div>
           </div>
