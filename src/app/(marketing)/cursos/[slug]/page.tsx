@@ -5,6 +5,7 @@ import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import { Clock, BarChart, CheckSquare } from 'lucide-react'
 import { enrollFreeCourse } from './actions'
+import { CourseContentClient } from './CourseContentClient'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,6 +47,11 @@ export default async function CourseDetail({
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()
+  let isAdmin = false
+  if (user) {
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+    if (profile?.role === 'admin') isAdmin = true
+  }
   
   let course = null
   try {
@@ -123,29 +129,8 @@ export default async function CourseDetail({
             {course.description}
           </div>
           
-          {/* Temario Placeholder */}
-          <div>
-            <h2 className="text-3xl font-black uppercase tracking-tight text-white mb-6 border-l-8 border-primary pl-4">
-              TEMARIO DEL CURSO
-            </h2>
-            <div className="space-y-4">
-               {modules.map((mod, index) => (
-                 <div key={index} className="bg-background-dark border-4 border-slate-700 p-6 flex justify-between items-center group hover:border-primary transition-colors cursor-pointer">
-                    <div className="flex items-center gap-4">
-                       <span className="text-4xl font-black text-slate-700 group-hover:text-primary transition-colors">
-                         {String(index + 1).padStart(2, '0')}
-                       </span>
-                       <span className="text-xl font-bold uppercase text-white group-hover:text-primary transition-colors">
-                         {mod.title}
-                       </span>
-                    </div>
-                    <span className="bg-black border-2 border-slate-800 text-slate-400 text-xs px-3 py-1 uppercase font-bold tracking-widest hidden md:block">
-                      {mod.duration}
-                    </span>
-                 </div>
-               ))}
-            </div>
-          </div>
+          {/* Temario Component */}
+          <CourseContentClient courseId={course.id} dbModules={dbModules || []} isAdmin={isAdmin} />
         </div>
 
         {/* Sidebar / Checkout CTA */}
