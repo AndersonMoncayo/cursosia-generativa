@@ -14,7 +14,12 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic'
 
-const LEVELS = ['Todos', 'beginner', 'intermediate', 'advanced']
+const niveles = [
+  { value: 'todos', label: 'TODOS' },
+  { value: 'beginner', label: 'LEVEL BEGINNER' },
+  { value: 'intermediate', label: 'LEVEL INTERMEDIATE' },
+  { value: 'advanced', label: 'LEVEL ADVANCED' },
+]
 const PAGE_SIZE = 8
 
 export default async function Catalog({
@@ -53,12 +58,27 @@ export default async function Catalog({
             <div className="mb-8">
               <h3 className="font-bold uppercase tracking-widest text-sm text-slate-500 mb-4">Nivel</h3>
               <div className="space-y-3">
-                {LEVELS.map(l => (
-                  <label key={l} className="flex items-center gap-3 cursor-pointer group">
-                    <div className={`w-5 h-5 border-2 border-black flex flex-shrink-0 items-center justify-center transition-colors ${l === 'Todos' ? 'bg-primary' : 'bg-white group-hover:bg-slate-200'}`}>
-                      {l === 'Todos' && <span className="material-symbols-outlined text-[14px]">check</span>}
-                    </div>
-                    <span className="font-bold text-sm uppercase">{l === 'Todos' ? l : `Level ${l}`}</span>
+                {niveles.map((nivel) => (
+                  <label
+                    key={nivel.value}
+                    className="flex items-center gap-2 cursor-pointer py-1"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={nivel.value === 'todos'} // Example placeholder logic
+                      readOnly
+                      style={{
+                        width: '16px',
+                        height: '16px',
+                        accentColor: '#00FF41',
+                        cursor: 'pointer',
+                        flexShrink: 0
+                      }}
+                    />
+                    <span style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: 'bold' }}>
+                      {nivel.label}
+                    </span>
                   </label>
                 ))}
               </div>

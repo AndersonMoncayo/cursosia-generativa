@@ -7,21 +7,22 @@ import { Save, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { createClient } from '@/lib/supabase/client'
 
-export default function NuevoCurso() {
+export default function EditarCursoForm({ curso }: { curso: any }) {
   const router = useRouter()
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
+  
   const [formData, setFormData] = useState({
-    title: '',
-    slug: '',
-    description: '',
-    level: 'beginner',
-    duration_hours: 0,
-    price: 0,
-    thumbnail_url: '',
-    image_url: '',
-    instructor_nombre: '',
-    is_published: false
+    title: curso.title || '',
+    slug: curso.slug || '',
+    description: curso.description || '',
+    level: curso.level || 'beginner',
+    duration_hours: curso.duration_hours || 0,
+    price: curso.price || 0,
+    thumbnail_url: curso.thumbnail_url || '',
+    image_url: curso.image_url || '',
+    instructor_nombre: curso.instructor_nombre || '',
+    is_published: curso.is_published || false
   })
   const [file, setFile] = useState<File | null>(null)
 
@@ -62,8 +63,8 @@ export default function NuevoCurso() {
         finalImageUrl = publicUrl
       }
 
-      const res = await fetch('/api/admin/courses', {
-        method: 'POST',
+      const res = await fetch(`/api/admin/courses/${curso.id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
@@ -74,10 +75,10 @@ export default function NuevoCurso() {
 
       if (!res.ok) {
         const err = await res.json()
-        throw new Error(err.error || 'Error al crear el curso')
+        throw new Error(err.error || 'Error al actualizar el curso')
       }
 
-      toast.success('Curso creado exitosamente')
+      toast.success('Curso actualizado')
       router.push('/admin/cursos')
       router.refresh()
     } catch (error: any) {
@@ -92,10 +93,10 @@ export default function NuevoCurso() {
       <div className="flex justify-between items-end border-b-8 border-primary pb-6">
         <div>
           <h1 className="text-4xl font-black uppercase tracking-tighter text-white">
-            NUEVO CURSO
+            EDITAR CURSO
           </h1>
           <p className="text-primary font-bold uppercase mt-2 tracking-widest text-sm">
-            Crear Nodo de Aprendizaje
+            Modificar Nodo {formData.slug.toUpperCase()}
           </p>
         </div>
       </div>
@@ -116,9 +117,9 @@ export default function NuevoCurso() {
         </div>
 
         <div>
-          <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Descripción</label>
-          <textarea required rows={4} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} 
-            className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors"></textarea>
+           <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Descripción</label>
+           <textarea required rows={4} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} 
+             className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors"></textarea>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -153,7 +154,9 @@ export default function NuevoCurso() {
              <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Subir Imagen (Opcional)</label>
              <input type="file" accept="image/jpeg,image/jpg,image/png,image/webp,image/gif" onChange={handleFileChange}
                className="w-full bg-slate-900 border-2 border-slate-700 p-2 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
-             <div className="text-xs text-slate-500 mt-2">También puedes dejar en blanco para usar diseño base.</div>
+             {formData.image_url && !file && (
+               <div className="mt-2 text-xs text-primary font-bold">✓ Imagen Actual Existente</div>
+             )}
            </div>
         </div>
 
@@ -177,7 +180,7 @@ export default function NuevoCurso() {
 
         <div className="flex gap-4 pt-6">
           <button disabled={loading} type="submit" className="flex-1 bg-primary text-black font-black uppercase py-4 border-4 border-black retro-btn hover:bg-white transition-colors flex items-center justify-center gap-2">
-            <Save className="w-5 h-5" /> {loading ? 'GUARDANDO...' : 'GUARDAR CURSO'}
+            <Save className="w-5 h-5" /> {loading ? 'GUARDANDO...' : 'GUARDAR CAMBIOS'}
           </button>
           <Link href="/admin/cursos" className="bg-slate-800 text-white font-black uppercase py-4 px-8 border-4 border-slate-600 hover:border-white transition-colors flex items-center justify-center gap-2">
             <X className="w-5 h-5" /> CANCELAR

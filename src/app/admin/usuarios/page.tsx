@@ -177,7 +177,17 @@ export default function AdminUsuarios() {
                          <select
                            value={u.profile?.role || 'student'}
                            onChange={(e) => handleChangeRole(u.id, e.target.value)}
-                           className="border-2 border-black font-mono text-sm px-2 py-1 bg-white cursor-pointer hover:border-primary transition-colors focus:outline-none"
+                           style={{
+                             border: '2px solid black',
+                             fontFamily: 'monospace',
+                             fontSize: '12px',
+                             padding: '4px 8px',
+                             backgroundColor: 'white',
+                             color: 'black',
+                             cursor: 'pointer',
+                             fontWeight: 'bold',
+                             minWidth: '120px'
+                           }}
                          >
                            <option value="student">STUDENT</option>
                            <option value="instructor">INSTRUCTOR</option>
