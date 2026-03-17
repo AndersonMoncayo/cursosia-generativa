@@ -7,6 +7,35 @@ import { Clock, BarChart, CheckSquare } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
+import type { Metadata } from 'next'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const supabase = await createClient()
+  const { data: course } = await supabase
+    .from('courses')
+    .select('title, description')
+    .eq('slug', slug)
+    .single()
+  if (!course) return {}
+  return {
+    title: `${course.title} | CursosIA Generativa`,
+    description: course.description?.slice(0, 155) ?? '',
+    openGraph: {
+      title: course.title,
+      description: course.description?.slice(0, 155) ?? '',
+      url: `https://cursosia-generativa.vercel.app/cursos/${slug}`,
+    },
+    alternates: {
+      canonical: `https://cursosia-generativa.vercel.app/cursos/${slug}`,
+    },
+  }
+}
+
 export default async function CourseDetail({
   params,
 }: {
@@ -140,6 +169,22 @@ export default async function CourseDetail({
       </main>
 
       <Footer />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Course',
+            name: course.title,
+            description: course.description,
+            provider: {
+              '@type': 'Organization',
+              name: 'CursosIA Generativa',
+              url: 'https://cursosia-generativa.vercel.app',
+            },
+          }),
+        }}
+      />
     </div>
   )
 }

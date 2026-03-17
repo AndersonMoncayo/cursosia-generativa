@@ -4,6 +4,13 @@ import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import type { Course } from '@/types'
 import { CourseCard } from '@/components/molecules/CourseCard'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Catalogo de Cursos IA | CursosIA Generativa',
+  description: 'Explora todos los cursos de Inteligencia Artificial. Filtra por nivel: principiante, intermedio y avanzado. Pago unico, acceso de por vida.',
+  alternates: { canonical: 'https://cursosia-generativa.vercel.app/cursos' },
+}
 
 export const dynamic = 'force-dynamic'
 

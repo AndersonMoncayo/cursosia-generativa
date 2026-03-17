@@ -1,13 +1,19 @@
 # CursosIA Generativa
-> [https://cursosIAgenerativa.com](https://cursosIAgenerativa.com)
-> Plataforma de cursos de IA Generativa en español
+> https://cursosia-generativa.vercel.app
+> Plataforma de cursos de Inteligencia Artificial Generativa en español
 
-## Cursos
-- IA Generativa desde Cero: $67
-- Automatización con N8N e IA: $85
-- Prompt Engineering Profesional: Gratis
-- IA para Negocios: $47
+## Producto
+Cursos estructurados y practicos de IA Generativa.
+Aprende ChatGPT, Claude, N8N y automatizaciones reales
+desde cero hasta produccion.
 
-## Instructor
-Anderson Moncayo — Ingeniero de Sistemas,
-Especialista en IA, Master UNIR España
+## Planes
+- Starter: GRATIS — acceso a cursos free
+- Pro Access: $47 USD/modulo — modulos intermedios y avanzados
+- Lifetime Core: $197 USD unico — todos los cursos actuales y futuros
+
+## Stack
+Next.js 15, React 19, Supabase, Vercel, Tailwind CSS
+
+## Contacto
+https://cursosia-generativa.vercel.app

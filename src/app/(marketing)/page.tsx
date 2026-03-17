@@ -5,6 +5,20 @@ import Link from 'next/link'
 import type { Course } from '@/types'
 import { CourseCard } from '@/components/molecules/CourseCard'
 import { Rocket, CreditCard } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'CursosIA Generativa | Aprende IA Generativa desde Cero',
+  description: 'Cursos practicos de IA Generativa en espanol. Aprende ChatGPT, Claude, N8N y automatizaciones reales. Desde cero hasta produccion.',
+  openGraph: {
+    title: 'CursosIA Generativa — Domina la IA',
+    description: 'Cursos estructurados 100% practicos. Aprende ChatGPT, N8N, Claude.',
+    url: 'https://cursosia-generativa.vercel.app',
+    siteName: 'CursosIA Generativa',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
+  alternates: { canonical: 'https://cursosia-generativa.vercel.app' },
+}
 
 export const revalidate = 3600 // ISR revalidate every hour
 

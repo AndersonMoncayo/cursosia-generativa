@@ -3,6 +3,13 @@ import { Navbar } from '@/components/organisms/Navbar'
 import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import type { Post } from '@/types'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Blog IA Generativa | CursosIA Generativa',
+  description: 'Recursos, tutoriales y noticias sobre IA Generativa. ChatGPT, Claude, N8N, automatizaciones y casos de uso reales.',
+  alternates: { canonical: 'https://cursosia-generativa.vercel.app/blog' },
+}
 
 export const revalidate = 3600 // ISR
 

@@ -2,6 +2,13 @@ import { Navbar } from '@/components/organisms/Navbar'
 import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import { CheckSquare, X } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Planes y Precios | CursosIA Generativa',
+  description: 'Sin suscripciones trampa. Pago unico o por modulo. Starter gratis, Pro $47 por modulo, Lifetime $197. Acceso de por vida.',
+  alternates: { canonical: 'https://cursosia-generativa.vercel.app/precios' },
+}
 
 export default function Pricing() {
   return (
