@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
-import { Plus, Edit2, Trash2 } from 'lucide-react'
+import { Plus, Edit2, Trash2, List } from 'lucide-react'
 import { DeleteCourseButton } from './DeleteCourseButton'
 
 import { createClient } from '@/lib/supabase/server'
@@ -61,6 +61,9 @@ export default async function AdminCursos() {
                   <Link href={`/admin/cursos/${c.id}/editar`} className="flex-1 bg-black text-white p-2 border-2 border-slate-600 hover:border-white hover:text-black hover:bg-white transition-colors text-center font-bold text-xs uppercase" title="Editar">
                     EDITAR
                   </Link>
+                  <Link href={`/admin/cursos/${c.id}/contenido`} className="flex-1 bg-primary text-black p-2 border-2 border-slate-600 hover:border-black hover:bg-white transition-colors text-center font-bold text-xs uppercase" title="Contenido">
+                    CONTENIDO
+                  </Link>
                   <DeleteCourseButton id={c.id} title={c.title} />
                 </div>
               </div>
@@ -99,6 +102,9 @@ export default async function AdminCursos() {
                       <div className="flex justify-center gap-2">
                          <Link href={`/admin/cursos/${c.id}/editar`} className="bg-black text-white p-2 border-2 border-slate-600 hover:border-white hover:text-black hover:bg-white transition-colors" title="Editar">
                            <Edit2 className="w-4 h-4" />
+                         </Link>
+                         <Link href={`/admin/cursos/${c.id}/contenido`} className="bg-primary text-black p-2 border-2 border-slate-600 hover:border-black hover:bg-white transition-colors" title="Contenido">
+                           <List className="w-4 h-4" />
                          </Link>
                          <DeleteCourseButton id={c.id} title={c.title} />
                       </div>
