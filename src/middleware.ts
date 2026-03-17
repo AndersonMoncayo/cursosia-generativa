@@ -65,7 +65,7 @@ export async function middleware(request: NextRequest) {
   const isAdmin = adminPaths.some(p => 
     request.nextUrl.pathname.startsWith(p))
 
-  if (isProtected && !user) {
+  if ((isProtected || isAdmin) && !user) {
     return NextResponse.redirect(
       new URL('/login', request.url))
   }

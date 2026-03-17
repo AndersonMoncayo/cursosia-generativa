@@ -8,8 +8,7 @@ import { Footer } from '@/components/organisms/Footer'
 import { createClient } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 
-export default function Login() {
-  const [isLogin, setIsLogin] = useState(true)
+export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
@@ -17,15 +16,21 @@ export default function Login() {
   const router = useRouter()
   const supabase = createClient()
 
-  const handleEmailAuth = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName },
+          emailRedirectTo: `${window.location.origin}/auth/callback`
+        }
+      })
       if (error) throw error
-      router.push('/dashboard')
-      router.refresh()
+      router.push('/verify-email')
     } catch (error: any) {
       toast.error(error.message)
     } finally {
@@ -60,7 +65,7 @@ export default function Login() {
             <div className="p-8">
               <div className="text-center mb-8">
                 <h2 className="text-4xl font-black text-black uppercase tracking-tighter mb-2">
-                  Acceso_Root
+                  Nuevo_Nodo
                 </h2>
                 <p className="text-slate-500 font-bold uppercase text-xs tracking-widest">
                   Secure Connection Required
@@ -68,17 +73,17 @@ export default function Login() {
               </div>
 
               <div className="flex mb-8 border-b-2 border-black">
+                <Link
+                  href="/login"
+                  className="flex-1 py-3 font-black uppercase text-sm border-b-4 border-transparent text-slate-400 hover:text-black text-center"
+                >
+                  Sign In
+                </Link>
                 <button
                   className="flex-1 py-3 font-black uppercase text-sm border-b-4 border-primary text-black transition-colors"
                 >
-                  Sign In
-                </button>
-                <Link
-                  href="/register"
-                  className="flex-1 py-3 font-black uppercase text-sm border-b-4 border-transparent text-slate-400 hover:text-black text-center"
-                >
                   Create
-                </Link>
+                </button>
               </div>
 
               <button
@@ -97,8 +102,18 @@ export default function Login() {
                 <div className="h-px bg-slate-300 flex-1"></div>
               </div>
 
-              <form onSubmit={handleEmailAuth} className="space-y-4">
-                {/* Only Login Fields */}
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-black text-black uppercase mb-1">Nombre Completo</label>
+                  <input
+                    type="text"
+                    className="w-full bg-slate-100 border-2 border-black p-3 text-black font-bold focus:outline-none focus:border-primary transition-colors focus:bg-white"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                  />
+                </div>
+                
                 <div>
                   <label className="block text-xs font-black text-black uppercase mb-1">Email</label>
                   <input
@@ -121,18 +136,12 @@ export default function Login() {
                   />
                 </div>
 
-                  <div className="text-right">
-                    <Link href="/forgot-password" className="text-xs font-bold text-slate-500 uppercase hover:text-primary transition-colors">
-                      ¿Olvidaste tu contraseña?
-                    </Link>
-                  </div>
-
                 <button
                   type="submit"
                   disabled={loading}
                   className="w-full bg-primary text-black border-4 border-black font-black uppercase tracking-widest py-4 mt-6 retro-shadow retro-btn disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors"
                 >
-                  {loading ? 'Procesando...' : 'Ejecutar Auth'}
+                  {loading ? 'Procesando...' : 'CREAR CUENTA'}
                 </button>
               </form>
             </div>
