@@ -42,8 +42,35 @@ export default async function AdminCursos() {
             NO HAY CURSOS CREADOS. INICIA EL PRIMER NODO.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <>
+          {/* MOBILE CARDS */}
+          <div className="md:hidden flex flex-col gap-4">
+            {courses.map((c: any) => (
+              <div key={c.id} className="border-2 border-slate-700 p-4 bg-slate-900 flex flex-col gap-3">
+                <div className="flex justify-between items-start gap-4">
+                  <h3 className="font-black text-white uppercase text-sm">{c.title}</h3>
+                  <span className={`px-2 py-1 text-[10px] font-black uppercase border-2 text-center shrink-0 ${
+                    c.is_published ? 'bg-primary text-black border-primary' : 'bg-slate-800 text-slate-300 border-slate-600'
+                  }`}>
+                    {c.is_published ? 'PUB' : 'DRAFT'}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-slate-400 font-bold text-xs uppercase mb-1">Nivel: {c.level || 'N/A'}</p>
+                  <p className="text-primary font-black text-sm uppercase">Precio: ${c.price ? Number(c.price).toFixed(2) : 'FREE'}</p>
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <Link href={`/admin/cursos/${c.id}/editar`} className="flex-1 bg-black text-white p-2 border-2 border-slate-600 hover:border-white hover:text-black hover:bg-white transition-colors text-center font-bold text-xs uppercase" title="Editar">
+                    EDITAR
+                  </Link>
+                  <DeleteCourseButton id={c.id} title={c.title} />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b-4 border-slate-700">
                   <th className="py-4 px-4 font-black uppercase text-xs text-primary tracking-widest bg-slate-900 w-1/3">Título</th>
@@ -83,6 +110,7 @@ export default async function AdminCursos() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </div>
     </div>

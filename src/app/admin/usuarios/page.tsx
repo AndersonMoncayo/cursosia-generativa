@@ -136,8 +136,64 @@ export default function AdminUsuarios() {
             NO SE ENCONTRARON USUARIOS.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <>
+          {/* MOBILE CARDS */}
+          <div className="md:hidden flex flex-col gap-4">
+            {filteredUsers.map((u: any) => (
+              <div key={u.id} className="border-2 border-slate-700 p-4 bg-slate-900 flex flex-col gap-3">
+                <div>
+                  <div className="font-black uppercase text-white">{u.profile?.full_name || 'SIN NOMBRE'}</div>
+                  <div className="text-xs text-slate-400 font-bold lowercase">{u.email}</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`px-2 py-1 text-[10px] font-black uppercase border-2 flex items-center gap-1 ${
+                    u.profile?.role === 'admin' ? 'bg-red-500 text-white border-red-500' : 
+                    u.profile?.role === 'instructor' ? 'bg-yellow-500 text-black border-yellow-500' :
+                    'bg-slate-800 text-slate-300 border-slate-600'
+                  }`}>
+                    {u.profile?.role === 'admin' && <ShieldAlert className="w-3 h-3"/>}
+                    {u.profile?.role === 'instructor' && <Shield className="w-3 h-3"/>}
+                    {(!u.profile?.role || u.profile?.role === 'student') && <UserIcon className="w-3 h-3 text-primary"/>}
+                    {u.profile?.role || 'student'}
+                  </span>
+                </div>
+                <div className="text-xs font-bold text-slate-500 uppercase">
+                  <div>Registro: {new Date(u.created_at).toLocaleDateString()}</div>
+                  <div className="mt-1">Login: {u.last_sign_in ? new Date(u.last_sign_in).toLocaleDateString() : 'NUNCA'}</div>
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <select
+                    value={u.profile?.role || 'student'}
+                    onChange={(e) => handleChangeRole(u.id, e.target.value)}
+                    style={{
+                      border: '2px solid black',
+                      fontFamily: 'monospace',
+                      fontSize: '12px',
+                      padding: '4px 8px',
+                      backgroundColor: 'white',
+                      color: 'black',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      flex: 1
+                    }}
+                  >
+                    <option value="student">STUDENT</option>
+                    <option value="instructor">INSTRUCTOR</option>
+                    <option value="admin">ADMIN</option>
+                  </select>
+                  <button
+                    onClick={() => handleDeleteUser(u.id, u.email)}
+                    className="border-2 border-black bg-red-500 text-white font-mono text-xs px-3 py-1 hover:bg-red-600 font-bold transition-colors"
+                  >
+                    DEL
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b-4 border-slate-700">
                   <th className="py-4 px-4 font-black uppercase text-xs text-primary tracking-widest bg-slate-900 w-1/3">Usuario / Email</th>
@@ -207,6 +263,7 @@ export default function AdminUsuarios() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </div>
     </div>

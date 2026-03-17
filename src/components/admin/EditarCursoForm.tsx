@@ -107,36 +107,36 @@ export default function EditarCursoForm({ curso }: { curso: any }) {
           <div>
             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Título</label>
             <input type="text" required value={formData.title} onChange={handleTitleChange} 
-              className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
+              style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
           </div>
           <div>
             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Slug (URL)</label>
             <input type="text" required value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} 
-              className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
+              style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
           </div>
         </div>
 
         <div>
            <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Descripción</label>
            <textarea required rows={4} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} 
-             className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors"></textarea>
+             style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }}></textarea>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Precio (USD)</label>
             <input type="number" step="0.01" min="0" required value={formData.price} onChange={e => setFormData({...formData, price: parseFloat(e.target.value)})} 
-              className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
+              style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
           </div>
           <div>
             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Duración (Horas)</label>
             <input type="number" min="0" required value={formData.duration_hours} onChange={e => setFormData({...formData, duration_hours: parseInt(e.target.value)})} 
-              className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
+              style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
           </div>
           <div>
             <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Nivel</label>
             <select value={formData.level} onChange={e => setFormData({...formData, level: e.target.value})}
-              className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors uppercase">
+              style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }}>
               <option value="beginner">Principiante</option>
               <option value="intermediate">Intermedio</option>
               <option value="advanced">Avanzado</option>
@@ -148,12 +148,12 @@ export default function EditarCursoForm({ curso }: { curso: any }) {
            <div>
              <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Instructor Nombre</label>
              <input type="text" value={formData.instructor_nombre} onChange={e => setFormData({...formData, instructor_nombre: e.target.value})} 
-               className="w-full bg-slate-900 border-2 border-slate-700 p-3 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
+               style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
            </div>
            <div>
              <label className="block text-xs font-black text-primary uppercase mb-2 tracking-widest">Subir Imagen (Opcional)</label>
              <input type="file" accept="image/jpeg,image/jpg,image/png,image/webp,image/gif" onChange={handleFileChange}
-               className="w-full bg-slate-900 border-2 border-slate-700 p-2 text-white font-bold focus:outline-none focus:border-primary transition-colors" />
+               style={{ border: '2px solid black', padding: '8px', fontFamily: 'monospace', width: '100%', backgroundColor: 'white', color: 'black' }} />
              {formData.image_url && !file && (
                <div className="mt-2 text-xs text-primary font-bold">✓ Imagen Actual Existente</div>
              )}

@@ -103,26 +103,28 @@ export default async function AdminEstadisticas() {
             SIN DATOS DE ENROLLMENTS AÚN
           </div>
         ) : (
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b-4 border-slate-700">
-                <th className="py-4 px-4 font-black uppercase text-xs text-primary tracking-widest bg-slate-900 w-2/3">Módulo</th>
-                <th className="py-4 px-4 font-black uppercase text-xs text-primary tracking-widest bg-slate-900 text-right">Matrículas Netas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {finalPopular.slice(0, 10).map((row: any, i: number) => (
-                <tr key={i} className="border-b-2 border-slate-800 hover:bg-slate-900 transition-colors">
-                  <td className="py-4 px-4 text-white font-bold uppercase flex items-center gap-3">
-                    <span className="text-primary text-xs font-black">{i + 1}.</span> {row.titulo}
-                  </td>
-                  <td className="py-4 px-4 text-primary font-black text-right text-xl">
-                    {row.total_enrollments}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[500px]">
+              <thead>
+                <tr className="border-b-4 border-slate-700">
+                  <th className="py-4 px-4 font-black uppercase text-xs text-primary tracking-widest bg-slate-900 w-2/3">Módulo</th>
+                  <th className="py-4 px-4 font-black uppercase text-xs text-primary tracking-widest bg-slate-900 text-right">Matrículas Netas</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {finalPopular.slice(0, 10).map((row: any, i: number) => (
+                  <tr key={i} className="border-b-2 border-slate-800 hover:bg-slate-900 transition-colors">
+                    <td className="py-4 px-4 text-white font-bold uppercase flex items-center gap-3">
+                      <span className="text-primary text-xs font-black">{i + 1}.</span> {row.titulo}
+                    </td>
+                    <td className="py-4 px-4 text-primary font-black text-right text-xl">
+                      {row.total_enrollments}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
