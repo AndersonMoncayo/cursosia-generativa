@@ -53,6 +53,45 @@ export default function AdminUsuarios() {
     }
   }
 
+  const handleChangeRole = async (userId: string, newRole: string) => {
+    try {
+      const res = await fetch('/api/admin/users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, role: newRole })
+      })
+      if (res.ok) {
+        toast.success(`Rol actualizado a ${newRole}`)
+        setUsers(prev => prev.map(u => 
+          u.id === userId ? { ...u, profile: { ...(u.profile || {}), role: newRole } } : u
+        ))
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Error al cambiar rol')
+      }
+    } catch (e: any) {
+      toast.error(e.message)
+    }
+  }
+
+  const handleDeleteUser = async (userId: string, email: string) => {
+    if (!confirm(`¿Eliminar usuario ${email}? Esta acción no se puede deshacer.`)) return
+    try {
+      const res = await fetch(`/api/admin/users?userId=${userId}`, {
+        method: 'DELETE'
+      })
+      if (res.ok) {
+        toast.success(`Usuario eliminado`)
+        setUsers(prev => prev.filter(u => u.id !== userId))
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Error al eliminar usuario')
+      }
+    } catch (e: any) {
+      toast.error(e.message)
+    }
+  }
+
   const filteredUsers = filter === 'all' ? users : users.filter(u => u.profile?.role === filter)
 
   return (
@@ -135,8 +174,21 @@ export default function AdminUsuarios() {
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex justify-center gap-2">
-                         <button onClick={() => handleRoleChange(u.id, u.profile?.role)} className="bg-black text-white px-3 py-1 font-black text-[10px] uppercase border-2 border-slate-600 hover:border-white hover:text-black hover:bg-white transition-colors" title="Cambiar Rol">
-                           Switch_Role
+                         <select
+                           value={u.profile?.role || 'student'}
+                           onChange={(e) => handleChangeRole(u.id, e.target.value)}
+                           className="border-2 border-black font-mono text-sm px-2 py-1 bg-white cursor-pointer hover:border-primary transition-colors focus:outline-none"
+                         >
+                           <option value="student">STUDENT</option>
+                           <option value="instructor">INSTRUCTOR</option>
+                           <option value="admin">ADMIN</option>
+                         </select>
+
+                         <button
+                           onClick={() => handleDeleteUser(u.id, u.email)}
+                           className="border-2 border-black bg-red-500 text-white font-mono text-xs px-3 py-1 hover:bg-red-600 font-bold transition-colors"
+                         >
+                           ELIMINAR
                          </button>
                       </div>
                     </td>
