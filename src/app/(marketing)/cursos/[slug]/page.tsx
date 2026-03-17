@@ -66,14 +66,30 @@ export default async function CourseDetail({
 
   const accessUrl = user ? `/checkout/${course.id}` : '/login'
 
-  const modules = [
-    { title: 'MODULO 1: Fundamentos del Sistema', duration: '2.5 hrs' },
-    { title: 'MODULO 2: Arquitectura de Referencia', duration: '3.0 hrs' },
-    { title: 'MODULO 3: Implementación Práctica', duration: '4.5 hrs' },
-    { title: 'MODULO 4: Casos de Uso Avanzados', duration: '3.0 hrs' },
-    { title: 'MODULO 5: Seguridad y Escalabilidad', duration: '2.0 hrs' },
-    { title: 'MODULO 6: Proyecto Final Real', duration: '5.0 hrs' }
-  ]
+  const { data: dbModules } = await supabase
+    .from('modules')
+    .select(`
+      id, title, order_index,
+      lessons (
+        id, title, order_index,
+        duration_min, is_free, is_published,
+        deleted_at
+      )
+    `)
+    .eq('course_id', course.id)
+    .eq('is_published', true)
+    .is('deleted_at', null)
+    .order('order_index', { ascending: true })
+
+  const modules = (dbModules || []).map(m => {
+    const validLessons = m.lessons ? m.lessons.filter((l: any) => l.is_published && l.deleted_at === null) : []
+    const totalMins = validLessons.reduce((acc: number, l: any) => acc + (l.duration_min || 0), 0)
+    const hrs = (totalMins / 60).toFixed(1)
+    return {
+      title: m.title,
+      duration: totalMins > 0 ? `${hrs} hrs` : '0 hrs'
+    }
+  })
 
   return (
     <div className="bg-background-dark min-h-screen font-display text-slate-100 grid-pattern">
