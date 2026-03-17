@@ -64,15 +64,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, progress, isPurc
           </div>
         ) : (
           <div className="flex items-center justify-between mt-auto pt-6 border-t-4 border-black/10">
-            <div className="flex flex-col">
-              {course.original_price && <span className="text-black/50 line-through text-left font-black text-sm">${course.original_price}</span>}
-              <span className="text-black font-black text-3xl">
-                {course.price === 0 ? 'GRATIS' : `$${course.price}`}
-              </span>
-            </div>
-            <Link href={`/cursos/${course.slug}`} className="bg-black text-white font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors block text-center">
-              Ver Módulo
-            </Link>
+            {course.price === 0 ? (
+               <Link href={`/cursos/${course.slug}`} className="w-full bg-black text-[#00ff00] font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors block text-center tracking-widest">
+                 ACCEDER GRATIS
+               </Link>
+            ) : (
+              <>
+                <div className="flex flex-col">
+                  {course.original_price && <span className="text-black/50 line-through text-left font-black text-sm">${course.original_price}</span>}
+                  <span className="text-black font-black text-3xl">
+                    ${course.price}
+                  </span>
+                </div>
+                <Link href={`/cursos/${course.slug}`} className="bg-black text-white font-black px-6 py-3 uppercase border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-colors block text-center">
+                  Ver Módulo
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>

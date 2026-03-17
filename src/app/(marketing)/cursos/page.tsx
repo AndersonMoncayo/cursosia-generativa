@@ -67,10 +67,20 @@ export default async function Catalog({ params, searchParams }: { params: Promis
           </div>
 
           {!courses || courses.length === 0 ? (
-            <div className="bg-slate-800 border-4 border-slate-700 p-12 text-center retro-shadow">
-               <span className="material-symbols-outlined text-yellow-500 text-6xl mb-4">warning</span>
-               <h3 className="text-white font-black text-2xl uppercase mb-2">No se encontraron cursos</h3>
-               <p className="text-slate-400 font-bold">Ajusta tus filtros de búsqueda.</p>
+            <div className="bg-black border-[4px] border-white p-12 text-center flex flex-col items-center justify-center retro-shadow">
+               <span className="font-mono text-[#00ff00] text-5xl mb-4 font-black tracking-widest animate-pulse">&gt;_</span>
+               <h3 className="text-white font-mono font-black text-3xl uppercase mb-3 tracking-tighter">
+                 // CURSOS NO ENCONTRADOS
+               </h3>
+               <p className="text-gray-400 font-bold mb-8 text-sm">
+                 Intenta con otro nivel o reset filtros.
+               </p>
+               <Link 
+                 href="/cursos"
+                 className="bg-black text-[#00ff00] border-2 border-white px-8 py-3 text-sm font-black font-mono tracking-widest hover:bg-white hover:text-black transition-colors uppercase"
+               >
+                 RESET_FILTROS.EXE
+               </Link>
             </div>
           ) : (
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

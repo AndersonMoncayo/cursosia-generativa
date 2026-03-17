@@ -4,6 +4,7 @@ import { Navbar } from '@/components/organisms/Navbar'
 import { Footer } from '@/components/organisms/Footer'
 import Link from 'next/link'
 import { Clock, BarChart, CheckSquare } from 'lucide-react'
+import { enrollFreeCourse } from './actions'
 
 export const dynamic = 'force-dynamic'
 
@@ -165,13 +166,27 @@ export default async function CourseDetail({
                    INVERSIÓN ÚNICA
                  </span>
                  <div className="text-6xl font-black uppercase tracking-tighter">
-                   ${course.price}
+                   {course.price === 0 ? 'GRATIS' : `$${course.price}`}
                  </div>
               </div>
 
-              <Link href={accessUrl} className="w-full bg-black text-white font-black uppercase tracking-widest py-5 border-4 border-black text-center block text-xl retro-btn hover:bg-primary hover:text-black transition-colors mb-6">
-                ACCEDER AL MÓDULO
-              </Link>
+              {course.price === 0 ? (
+                user ? (
+                  <form action={enrollFreeCourse.bind(null, course.id)}>
+                    <button type="submit" className="w-full bg-black text-[#00ff00] font-black uppercase tracking-widest py-5 border-4 border-black text-center block text-xl retro-btn hover:bg-white hover:text-black transition-colors mb-6 cursor-pointer">
+                      ACCEDER GRATIS
+                    </button>
+                  </form>
+                ) : (
+                  <Link href={`/registro`} className="w-full bg-black text-[#00ff00] font-black uppercase tracking-widest py-5 border-4 border-black text-center block text-xl retro-btn hover:bg-white hover:text-black transition-colors mb-6">
+                    ACCEDER GRATIS
+                  </Link>
+                )
+              ) : (
+                <Link href={accessUrl} className="w-full bg-black text-white font-black uppercase tracking-widest py-5 border-4 border-black text-center block text-xl retro-btn hover:bg-primary hover:text-black transition-colors mb-6">
+                  ACCEDER AL MÓDULO
+                </Link>
+              )}
               
               <ul className="space-y-4 text-sm font-bold border-t-4 border-slate-200 pt-6 mt-6">
                 <li className="flex items-center gap-3"><CheckSquare className="text-primary w-5 h-5"/> ACCESO DE POR VIDA AL CONTENIDO</li>
