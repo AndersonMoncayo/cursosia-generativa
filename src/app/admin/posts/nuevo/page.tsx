@@ -85,11 +85,21 @@ export default function NuevoPost() {
         </div>
 
         <div className="flex items-center gap-3 pt-4 border-t-2 border-slate-800">
-           <input type="checkbox" id="published" checked={formData.published} onChange={e => setFormData({...formData, published: e.target.checked})} 
-             className="w-6 h-6 border-2 border-primary accent-primary cursor-pointer" />
-           <label htmlFor="published" className="text-sm font-black text-white uppercase tracking-widest cursor-pointer">
-             Publicar Inmediatamente
-           </label>
+          <label className="flex items-center gap-3 cursor-pointer">
+            <div
+              onClick={() => setFormData({...formData, published: !formData.published})}
+              className={`w-5 h-5 border-2 border-primary flex items-center justify-center cursor-pointer transition-colors ${
+                formData.published ? 'bg-primary' : 'bg-transparent'
+              }`}
+            >
+              {formData.published && (
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6L5 9L10 3" stroke="black" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              )}
+            </div>
+            <span className="text-sm font-black text-white uppercase tracking-widest">Publicar Inmediatamente</span>
+          </label>
         </div>
 
         <div className="flex gap-4 pt-6">
