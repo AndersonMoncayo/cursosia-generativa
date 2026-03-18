@@ -3,83 +3,134 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 
-// Inicializar redis si existen las keys
-const redis = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-  ? new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    })
-  : null
+// ─── Rate Limiting (Upstash Redis, opcional) ─────────────────────────────────
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      })
+    : null
 
-// Permitir 10 peticiones cada 10 segundos globalmente
 const ratelimit = redis
   ? new Ratelimit({
-      redis: redis,
+      redis,
       limiter: Ratelimit.slidingWindow(10, '10 s'),
     })
   : null
 
+// ─── Rutas protegidas por rol ─────────────────────────────────────────────────
+// Cualquier usuario autenticado
+const AUTH_PROTECTED = ['/courses', '/checkout', '/teach', '/admin']
+// Solo admin / superadmin
+const ADMIN_PATHS    = ['/admin']
+// Solo instructor
+const TEACH_PATHS    = ['/teach']
+// Solo usuario autenticado
+const STUDENT_PATHS  = ['/courses']
+
+function matchesAny(pathname: string, paths: string[]) {
+  return paths.some((p) => pathname.startsWith(p))
+}
+
 export async function middleware(request: NextRequest) {
-  // 1. Rate Limiting por IP
+  const { pathname } = request.nextUrl
+
+  // ─── 1. Rate Limiting por IP ───────────────────────────────────────────────
   if (ratelimit) {
-    // request.ip no está disponible siempre en el Edge de Next.js pero podemos leer headers
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '127.0.0.1'
+    const ip =
+      request.headers.get('x-forwarded-for') ||
+      request.headers.get('x-real-ip') ||
+      '127.0.0.1'
+
     const { success } = await ratelimit.limit(`ratelimit_${ip}`)
-    
     if (!success) {
       return NextResponse.json(
         { error: 'Demasiadas peticiones. Por favor, espera unos segundos.' },
-        { status: 429 }
+        { status: 429 },
       )
     }
   }
 
-  // 2. Auth y Headers de Supabase
+  // ─── 2. Supabase Auth client ───────────────────────────────────────────────
   let supabaseResponse = NextResponse.next({ request })
-  
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() { 
-          return request.cookies.getAll() 
+        getAll() {
+          return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => 
-            request.cookies.set(name, value))
+          for (const { name, value } of cookiesToSet)
+            request.cookies.set(name, value)
           supabaseResponse = NextResponse.next({ request })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options))
+          for (const { name, value, options } of cookiesToSet)
+            supabaseResponse.cookies.set(name, value, options)
         },
       },
-    }
+    },
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  const protectedPaths = ['/dashboard', '/checkout']
-  const adminPaths = ['/admin']
-  const isProtected = protectedPaths.some(p => 
-    request.nextUrl.pathname.startsWith(p))
-  const isAdmin = adminPaths.some(p => 
-    request.nextUrl.pathname.startsWith(p))
+  // SIEMPRE usar getUser() — nunca getSession() en middleware
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  if ((isProtected || isAdmin) && !user) {
-    return NextResponse.redirect(
-      new URL('/login', request.url))
+  // ─── 3. Rutas públicas — sin sesión OK ────────────────────────────────────
+  const isProtectedRoute = matchesAny(pathname, AUTH_PROTECTED)
+
+  if (isProtectedRoute && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('next', pathname)
+    return NextResponse.redirect(url)
   }
 
-  if (isAdmin) {
+  // ─── 4. Redirección post-login (raíz "/" con sesión activa) ───────────────
+  if (pathname === '/login' && user) {
+    // Redirigir al dashboard correcto según rol
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', user?.id)
+      .eq('id', user.id)
       .single()
-    
-    if (profile?.role !== 'admin') {
-      return NextResponse.redirect(
-        new URL('/dashboard', request.url))
+
+    const role = profile?.role ?? 'user'
+    const destination =
+      role === 'superadmin' || role === 'admin'
+        ? '/admin'
+        : role === 'instructor'
+          ? '/teach'
+          : '/courses'
+
+    return NextResponse.redirect(new URL(destination, request.url))
+  }
+
+  // ─── 5. RBAC por ruta ─────────────────────────────────────────────────────
+  if (user && (matchesAny(pathname, ADMIN_PATHS) || matchesAny(pathname, TEACH_PATHS))) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const role = profile?.role ?? 'user'
+
+    // /admin requiere admin o superadmin
+    if (matchesAny(pathname, ADMIN_PATHS)) {
+      if (role !== 'admin' && role !== 'superadmin') {
+        return NextResponse.redirect(new URL('/courses', request.url))
+      }
+    }
+
+    // /teach requiere instructor (admin también puede entrar)
+    if (matchesAny(pathname, TEACH_PATHS)) {
+      if (role !== 'instructor' && role !== 'admin' && role !== 'superadmin') {
+        return NextResponse.redirect(new URL('/courses', request.url))
+      }
     }
   }
 

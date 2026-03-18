@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Plus, Edit2, Trash2, Save, X, ChevronDown, ChevronUp, Video } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { createModule, updateModule, deleteModule, createLesson, updateLesson, deleteLesson } from '@/app/admin/cursos/[id]/contenido/actions'
+import { createModule, updateModule, deleteModule, createLesson, updateLesson, deleteLesson } from '@/app/(admin)/admin/cursos/[id]/contenido/actions'
 
 export default function CourseContentManager({ course, initialModules, initialLessons }: { course: any, initialModules: any[], initialLessons: any[] }) {
   const [activeModule, setActiveModule] = useState<string | null>(null)
