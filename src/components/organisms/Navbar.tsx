@@ -14,6 +14,13 @@ export const Navbar: React.FC = () => {
   const supabase = createClient()
   const router = useRouter()
 
+  const panelHref =
+    role === 'admin' || role === 'superadmin'
+      ? '/admin'
+      : role === 'instructor'
+      ? '/teach'
+      : '/courses'
+
   const handleLogout = async () => {
     await supabase.auth.signOut()
     router.push('/login')
@@ -68,7 +75,7 @@ export const Navbar: React.FC = () => {
                     ADMIN
                   </Link>
                 )}
-                <Link href="/dashboard" className="bg-primary text-black font-black px-6 py-2 uppercase border-2 border-black retro-shadow retro-btn text-sm hover:bg-white transition-colors">PANEL</Link>
+                <Link href={panelHref} className="bg-primary text-black font-black px-6 py-2 uppercase border-2 border-black retro-shadow retro-btn text-sm hover:bg-white transition-colors">PANEL</Link>
                 <button onClick={handleLogout} className="bg-black text-white font-black px-6 py-2 uppercase border-2 border-white retro-shadow retro-btn text-sm hover:bg-red-500 hover:border-black transition-colors">
                   SALIR
                 </button>
@@ -105,7 +112,7 @@ export const Navbar: React.FC = () => {
                      ADMIN
                    </Link>
                  )}
-                 <Link href="/dashboard" className="bg-primary text-black font-black px-4 py-3 uppercase border-2 border-black text-center retro-shadow">
+                 <Link href={panelHref} className="bg-primary text-black font-black px-4 py-3 uppercase border-2 border-black text-center retro-shadow">
                    PANEL
                  </Link>
                  <button onClick={handleLogout} className="bg-black text-white font-black px-4 py-3 uppercase border-2 border-white text-center mt-2 hover:bg-red-500 hover:border-black transition-colors">

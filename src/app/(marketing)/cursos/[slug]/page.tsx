@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+﻿import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { Navbar } from '@/components/organisms/Navbar'
 import { Footer } from '@/components/organisms/Footer'
@@ -45,14 +45,9 @@ export default async function CourseDetail({
 }) {
   const { slug } = await params
   const supabase = await createClient()
-  
+
   const { data: { user } } = await supabase.auth.getUser()
-  let isAdmin = false
-  if (user) {
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    if (profile?.role === 'admin') isAdmin = true
-  }
-  
+
   let course = null
   try {
     const { data, error } = await supabase
@@ -130,7 +125,7 @@ export default async function CourseDetail({
           </div>
           
           {/* Temario Component */}
-          <CourseContentClient courseId={course.id} dbModules={dbModules || []} isAdmin={isAdmin} />
+          <CourseContentClient courseId={course.id} dbModules={dbModules || []} />
         </div>
 
         {/* Sidebar / Checkout CTA */}
@@ -148,7 +143,7 @@ export default async function CourseDetail({
               
               <div className="mb-8">
                  <span className="text-sm font-black text-slate-500 uppercase tracking-widest block mb-2">
-                   INVERSIÓN ÚNICA
+                   INVERSIÃ“N ÃšNICA
                  </span>
                  <div className="text-6xl font-black uppercase tracking-tighter">
                    {course.price === 0 ? 'GRATIS' : `$${course.price}`}
@@ -169,14 +164,14 @@ export default async function CourseDetail({
                 )
               ) : (
                 <Link href={accessUrl} className="w-full bg-black text-white font-black uppercase tracking-widest py-5 border-4 border-black text-center block text-xl retro-btn hover:bg-primary hover:text-black transition-colors mb-6">
-                  ACCEDER AL MÓDULO
+                  ACCEDER AL MÃ“DULO
                 </Link>
               )}
               
               <ul className="space-y-4 text-sm font-bold border-t-4 border-slate-200 pt-6 mt-6">
                 <li className="flex items-center gap-3"><CheckSquare className="text-primary w-5 h-5"/> ACCESO DE POR VIDA AL CONTENIDO</li>
                 <li className="flex items-center gap-3"><CheckSquare className="text-primary w-5 h-5"/> ACTUALIZACIONES GRATUITAS</li>
-                <li className="flex items-center gap-3"><CheckSquare className="text-primary w-5 h-5"/> PROYECTOS PRÁCTICOS REALES</li>
+                <li className="flex items-center gap-3"><CheckSquare className="text-primary w-5 h-5"/> PROYECTOS PRÃCTICOS REALES</li>
                 <li className="flex items-center gap-3"><CheckSquare className="text-primary w-5 h-5"/> SOPORTE DE LA COMUNIDAD</li>
               </ul>
            </div>

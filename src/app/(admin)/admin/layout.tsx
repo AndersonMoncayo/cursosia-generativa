@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -20,10 +20,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
-      // format: 2026.03.17 — 01:32
+      // format: 2026.03.17 â€” 01:32
       const datePart = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`
       const timePart = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-      setCurrentTime(`${datePart} — ${timePart}`)
+      setCurrentTime(`${datePart} â€” ${timePart}`)
     }
     updateTime()
     const timer = setInterval(updateTime, 60000)
@@ -72,7 +72,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   pathname === item.href ? 'text-black bg-green-400' : 'text-white hover:text-green-400'
                 }`}
               >
-                // {item.label}
+                 {item.label}
               </Link>
             ))}
             <Link href="/dashboard" onClick={() => setMenuOpen(false)}
@@ -101,7 +101,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   ? 'border-green-400 text-green-400 bg-gray-900'
                   : 'border-transparent text-gray-400 hover:text-white hover:border-gray-800'
               }`}>
-              // {item.label}
+              {item.label}
             </Link>
           ))}
         </nav>
