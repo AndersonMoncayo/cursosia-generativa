@@ -1,6 +1,6 @@
-'use server'
+"use server";
 
-import type { ActionResult } from '@/types/database.types'
+import type { ActionResult } from "@/types/database.types";
 
 /**
  * BILLING MODULE — Fase 3 (Paddle)
@@ -10,16 +10,16 @@ import type { ActionResult } from '@/types/database.types'
 
 // Placeholder — se implementará en Fase 3
 export async function createCheckoutSession(
-  _courseId: string,
+	_courseId: string,
 ): Promise<ActionResult<{ checkoutUrl: string }>> {
-  // TODO Fase 3: Integrar Paddle Checkout
-  return { ok: false, error: 'Pagos no disponibles aún. Próximamente.' }
+	// TODO Fase 3: Integrar Paddle Checkout
+	return { ok: false, error: "Pagos no disponibles aún. Próximamente." };
 }
 
 // Placeholder — se implementará cuando llegue el webhook
 export async function handlePaddleWebhook(
-  _payload: unknown,
+	_payload: unknown,
 ): Promise<ActionResult> {
-  // TODO Fase 3: Verificar firma criptográfica Paddle + actualizar purchases
-  return { ok: false, error: 'Webhook not implemented' }
+	// TODO Fase 3: Verificar firma criptográfica Paddle + actualizar purchases
+	return { ok: false, error: "Webhook not implemented" };
 }
