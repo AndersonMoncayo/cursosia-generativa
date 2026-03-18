@@ -4,7 +4,7 @@ import RegisterClient from "./RegisterClient";
 export const metadata: Metadata = {
 	title: "Crear Cuenta | CursosIA Generativa",
 	description:
-		"Regístrate gratis en CursosIA Generativa. Accede a cursos de IA Generativa, ChatGPT, N8N y automatizaciones en español.",
+		"Crea tu cuenta gratuita en CursosIA Generativa y empieza a aprender IA Generativa hoy.",
 	alternates: {
 		canonical: "https://cursosia-generativa.vercel.app/register",
 	},

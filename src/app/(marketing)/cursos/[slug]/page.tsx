@@ -20,7 +20,7 @@ export async function generateMetadata({
 	const supabase = await createClient();
 	const { data: course } = await supabase
 		.from("courses")
-		.select("title, description, thumbnail_url")
+		.select("title, description, thumbnail_url, slug")
 		.eq("slug", slug)
 		.single();
 	if (!course) return {};
@@ -47,7 +47,7 @@ export async function generateMetadata({
 			images: [course.thumbnail_url || "/og-image.png"],
 		},
 		alternates: {
-			canonical: `https://cursosia-generativa.vercel.app/cursos/${slug}`,
+			canonical: `https://cursosia-generativa.vercel.app/cursos/${course.slug}`,
 		},
 	};
 }
@@ -143,6 +143,10 @@ export default async function CourseDetail({
 							</span>
 						</div>
 					</div>
+
+					<h2 className="text-2xl font-black text-white uppercase tracking-tighter border-l-4 border-primary pl-3">
+						Acerca de este curso
+					</h2>
 
 					<div className="bg-black border-4 border-slate-800 p-8 text-lg font-bold text-slate-300 leading-relaxed retro-shadow">
 						{course.description}

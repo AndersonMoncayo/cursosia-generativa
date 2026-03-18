@@ -4,7 +4,7 @@ import LoginClient from "./LoginClient";
 export const metadata: Metadata = {
 	title: "Iniciar Sesión | CursosIA Generativa",
 	description:
-		"Accede a tu cuenta de CursosIA Generativa. Aprende IA Generativa, ChatGPT, N8N y automatizaciones con cursos prácticos en español.",
+		"Inicia sesión en tu cuenta de CursosIA Generativa y accede a todos tus cursos de IA.",
 	alternates: {
 		canonical: "https://cursosia-generativa.vercel.app/login",
 	},

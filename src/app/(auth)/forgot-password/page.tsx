@@ -4,7 +4,7 @@ import ForgotPasswordClient from "./ForgotPasswordClient";
 export const metadata: Metadata = {
 	title: "Recuperar Contraseña | CursosIA Generativa",
 	description:
-		"Restablece tu contraseña de CursosIA Generativa. Ingresa tu email y recibirás un enlace de recuperación.",
+		"Recupera el acceso a tu cuenta de CursosIA Generativa. Te enviaremos un enlace a tu email.",
 	alternates: {
 		canonical: "https://cursosia-generativa.vercel.app/forgot-password",
 	},

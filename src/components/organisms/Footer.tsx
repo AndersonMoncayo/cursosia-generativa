@@ -21,10 +21,10 @@ export const Footer: React.FC = () => {
 					</p>
 					<div className="flex gap-4">
 						<a
-							href="https://twitter.com"
+							href="https://x.com/cursosiagenerativa"
 							target="_blank"
 							rel="noopener noreferrer"
-							aria-label="Siguenos en Twitter"
+							aria-label="Síguenos en X"
 							className="w-10 h-10 border-2 border-slate-700 flex items-center justify-center hover:bg-slate-800 hover:border-white transition-colors"
 						>
 							<Share2 className="text-white w-5 h-5" />
