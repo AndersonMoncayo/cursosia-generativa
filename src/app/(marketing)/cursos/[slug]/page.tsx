@@ -1,4 +1,4 @@
-﻿import { BarChart, CheckSquare, Clock } from "lucide-react";
+import { BarChart, CheckSquare, Clock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/organisms/Footer";
@@ -20,7 +20,7 @@ export async function generateMetadata({
 	const supabase = await createClient();
 	const { data: course } = await supabase
 		.from("courses")
-		.select("title, description")
+		.select("title, description, thumbnail_url")
 		.eq("slug", slug)
 		.single();
 	if (!course) return {};
@@ -31,6 +31,20 @@ export async function generateMetadata({
 			title: course.title,
 			description: course.description?.slice(0, 155) ?? "",
 			url: `https://cursosia-generativa.vercel.app/cursos/${slug}`,
+			type: "article",
+			images: [
+				{
+					url: course.thumbnail_url || "/og-image.png",
+					width: 1200,
+					height: 630,
+				},
+			],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: course.title,
+			description: course.description?.slice(0, 155) ?? "",
+			images: [course.thumbnail_url || "/og-image.png"],
 		},
 		alternates: {
 			canonical: `https://cursosia-generativa.vercel.app/cursos/${slug}`,

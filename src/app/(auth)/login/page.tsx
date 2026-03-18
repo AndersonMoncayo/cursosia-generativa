@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	alternates: {
 		canonical: "https://cursosia-generativa.vercel.app/login",
 	},
-	robots: { index: false, follow: false },
+	robots: { index: true, follow: true },
 	openGraph: {
 		title: "Iniciar Sesión | CursosIA Generativa",
 		description:

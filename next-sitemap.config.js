@@ -2,7 +2,20 @@
 module.exports = {
 	siteUrl: "https://cursosia-generativa.vercel.app",
 	generateRobotsTxt: false,
-	exclude: ["/dashboard", "/dashboard/*", "/admin", "/admin/*", "/login"],
+	exclude: [
+		"/login",
+		"/login/*",
+		"/register",
+		"/register/*",
+		"/forgot-password",
+		"/forgot-password/*",
+		"/dashboard",
+		"/dashboard/*",
+		"/admin",
+		"/admin/*",
+		"/checkout",
+		"/checkout/*",
+	],
 	changefreq: "weekly",
 	priority: 0.7,
 };
