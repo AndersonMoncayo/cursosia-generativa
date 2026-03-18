@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { CourseForm } from "../CourseForm";
+import { CourseForm } from "../../CourseForm";
 
 export const dynamic = "force-dynamic";
 
