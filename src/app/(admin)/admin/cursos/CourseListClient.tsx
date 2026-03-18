@@ -74,145 +74,116 @@ export function CourseListClient({
 		return matchesSearch && matchesStatus;
 	});
 
-	// get color helper
+	// FIX: colores sin rojo - sistema consistente con el tema
 	const getLevelColor = (level: string) => {
 		switch (level.toLowerCase()) {
 			case "beginner":
-				return "bg-[#064e3b]";
+				return "bg-[#064e3b] text-white";
 			case "intermediate":
-				return "bg-[#1e3a8a]";
+				return "bg-[#1e3a8a] text-white";
 			case "advanced":
-				return "bg-[#7f1d1d]";
+				return "bg-[#3b0764] text-white"; // morado oscuro, no rojo
 			default:
-				return "bg-zinc-800";
+				return "bg-zinc-800 text-white";
 		}
 	};
 
 	return (
 		<>
-			<section
-				className="mb-8 flex flex-col md:flex-row gap-4"
-				data-purpose="filters-toolbox"
-			>
-				<div className="relative flex-grow">
-					<input
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="w-full bg-[#1a1a1a] border-4 border-black text-white px-4 py-4 focus:ring-0 focus:border-primary placeholder:text-gray-600 font-bold"
-						placeholder="BUSCAR CURSO..."
-						type="text"
-					/>
-				</div>
+			{/* Filtros */}
+			<div className="flex flex-col sm:flex-row gap-0 mb-8 neo-border">
+				<input
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					className="flex-1 bg-[#1a1a1a] border-0 text-white px-4 py-4 focus:ring-0 focus:outline-none placeholder:text-zinc-600 font-bold"
+					placeholder="BUSCAR CURSO..."
+					type="text"
+				/>
 				<select
 					value={statusFilter}
 					onChange={(e) => setStatusFilter(e.target.value)}
-					className="bg-[#1a1a1a] border-4 border-black text-white px-6 py-4 font-bold focus:ring-0 focus:border-primary uppercase min-w-[200px]"
+					className="bg-[#1a1a1a] border-l-4 border-black text-white px-6 py-4 font-bold focus:ring-0 focus:outline-none uppercase min-w-[200px]"
 				>
 					<option value="ALL_STATUS">ALL_STATUS</option>
 					<option value="PUBLISHED">PUBLISHED</option>
 					<option value="DRAFTS">DRAFTS</option>
 				</select>
-			</section>
+			</div>
 
-			<section
-				className="overflow-x-auto bg-[#222222] brutalist-border brutalist-shadow"
-				data-purpose="table-container"
-			>
-				<table className="w-full border-collapse min-w-[800px]">
-					<thead className="bg-black text-white">
-						<tr className="text-left">
-							<th className="p-4 font-black uppercase tracking-widest border-b-4 border-black">
-								Title
-							</th>
-							<th className="p-4 font-black uppercase tracking-widest border-b-4 border-black text-center">
-								Level
-							</th>
-							<th className="p-4 font-black uppercase tracking-widest border-b-4 border-black">
-								Price
-							</th>
-							<th className="p-4 font-black uppercase tracking-widest border-b-4 border-black text-center">
-								Status
-							</th>
-							<th className="p-4 font-black uppercase tracking-widest border-b-4 border-black text-right">
-								Actions
-							</th>
+			{/* Tabla */}
+			<div className="neo-border overflow-hidden">
+				<table className="w-full">
+					<thead>
+						<tr className="bg-black border-b-4 border-black">
+							<th className="text-left px-4 py-3 text-primary font-bold text-xs tracking-widest">TITLE</th>
+							<th className="text-left px-4 py-3 text-primary font-bold text-xs tracking-widest">LEVEL</th>
+							<th className="text-left px-4 py-3 text-primary font-bold text-xs tracking-widest">PRICE</th>
+							<th className="text-left px-4 py-3 text-primary font-bold text-xs tracking-widest">STATUS</th>
+							<th className="text-left px-4 py-3 text-primary font-bold text-xs tracking-widest">ACTIONS</th>
 						</tr>
 					</thead>
-					<tbody className="text-white divide-y-4 divide-black">
+					<tbody>
 						{filteredCourses.map((course) => (
 							<tr
 								key={course.id}
-								className="hover:bg-zinc-900 transition-colors"
+								className="border-b-2 border-zinc-800 hover:bg-zinc-900 transition-colors"
 							>
-								<td className="p-4">
-									<span className="block text-xl font-bold uppercase italic">
-										{course.title}
-									</span>
-									<span className="text-xs text-gray-400 font-mono">
-										UUID: {course.id.substring(0, 12)}...
-									</span>
+								<td className="px-4 py-4">
+									<p className="font-black text-white uppercase italic text-sm">{course.title}</p>
+									<p className="text-zinc-500 text-xs mt-1">UUID: {course.id.substring(0, 12)}...</p>
 								</td>
-								<td className="p-4 text-center">
-									<span
-										className={`px-3 py-1 ${getLevelColor(course.level)} border-2 border-black font-bold text-xs uppercase inline-block`}
-									>
+								<td className="px-4 py-4">
+									<span className={`px-2 py-1 text-[10px] font-bold tracking-widest uppercase ${getLevelColor(course.level)}`}>
 										{course.level}
 									</span>
 								</td>
-								<td className="p-4 text-primary font-black text-xl">
-									${course.price}
+								<td className="px-4 py-4 text-white font-bold">${course.price}</td>
+								<td className="px-4 py-4">
+									<button
+										type="button"
+										onClick={() => handleToggle(course.id, course.is_published)}
+										className={`w-14 h-8 neo-border p-1 cursor-pointer transition-all ${
+											course.is_published ? "bg-primary" : "bg-zinc-700"
+										}`}
+										title={course.is_published ? "Despublicar" : "Publicar"}
+									>
+										<span className="sr-only">{course.is_published ? "Publicado" : "Borrador"}</span>
+									</button>
 								</td>
-								<td className="p-4">
-									<div className="flex justify-center">
-										<div
-											onClick={() =>
-												handleToggle(course.id, course.is_published)
-											}
-											className={`w-14 h-8 neo-border p-1 cursor-pointer transition-colors ${course.is_published ? "bg-primary" : "bg-zinc-700"}`}
-										>
-											<div
-												className={`w-5 h-5 bg-black transition-transform ${course.is_published ? "ml-auto translate-x-1" : "ml-0"}`}
-											></div>
-										</div>
-									</div>
-								</td>
-								<td className="p-4">
-									<div className="flex justify-end gap-2 text-xs">
+								<td className="px-4 py-4">
+									<div className="flex gap-2 flex-wrap">
 										<Link
 											href={`/admin/cursos/${course.id}/editar`}
-											className="px-3 py-2 neo-border bg-white text-black font-bold hover:bg-primary transition-colors uppercase"
+											className="px-3 py-2 neo-border bg-white text-black font-bold text-xs hover:bg-primary transition-colors uppercase"
 										>
-											Edit
+											EDIT
 										</Link>
 										<Link
 											href={`/admin/cursos/${course.id}/contenido`}
-											className="px-3 py-2 neo-border bg-white text-black font-bold hover:bg-primary transition-colors uppercase"
+											className="px-3 py-2 neo-border bg-zinc-700 text-white font-bold text-xs hover:bg-zinc-600 transition-colors uppercase"
 										>
-											Content
+											CONTENT
 										</Link>
 										<button
+											type="button"
 											onClick={() => handleDelete(course.id)}
-											className="px-3 py-2 neo-border bg-red-600 text-black font-bold hover:bg-red-500 transition-colors uppercase cursor-pointer"
+											className="px-3 py-2 neo-border bg-zinc-900 text-zinc-400 font-bold text-xs hover:bg-zinc-700 hover:text-white transition-colors uppercase cursor-pointer"
 										>
-											Delete
+											DELETE
 										</button>
 									</div>
 								</td>
 							</tr>
 						))}
-						{filteredCourses.length === 0 && (
-							<tr>
-								<td
-									colSpan={5}
-									className="p-8 text-center text-gray-400 font-bold uppercase italic border-t-4 border-black"
-								>
-									No se encontraron cursos con estos filtros.
-								</td>
-							</tr>
-						)}
 					</tbody>
 				</table>
-			</section>
+
+				{filteredCourses.length === 0 && (
+					<div className="text-center py-16 text-zinc-500 font-bold tracking-widest">
+						NO_COURSES_FOUND
+					</div>
+				)}
+			</div>
 		</>
 	);
 }
