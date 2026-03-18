@@ -21,13 +21,17 @@ export const Footer: React.FC = () => {
 					</p>
 					<div className="flex gap-4">
 						<a
-							href="#"
+							href="https://twitter.com"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label="Siguenos en Twitter"
 							className="w-10 h-10 border-2 border-slate-700 flex items-center justify-center hover:bg-slate-800 hover:border-white transition-colors"
 						>
 							<Share2 className="text-white w-5 h-5" />
 						</a>
 						<a
-							href="#"
+							href="mailto:support@cursosiagenerativa.com"
+							aria-label="Email de soporte"
 							className="w-10 h-10 border-2 border-slate-700 flex items-center justify-center hover:bg-slate-800 hover:border-white transition-colors"
 						>
 							<Mail className="text-white w-5 h-5" />
@@ -82,7 +86,7 @@ export const Footer: React.FC = () => {
 					<ul className="space-y-3 font-bold text-sm text-slate-400">
 						<li>
 							<Link
-								href="#"
+								href="/faq"
 								className="hover:text-primary uppercase transition-colors"
 							>
 								FAQ
@@ -90,7 +94,7 @@ export const Footer: React.FC = () => {
 						</li>
 						<li>
 							<Link
-								href="#"
+								href="/terminos"
 								className="hover:text-primary uppercase transition-colors"
 							>
 								Términos de Servicio
@@ -98,7 +102,7 @@ export const Footer: React.FC = () => {
 						</li>
 						<li>
 							<Link
-								href="#"
+								href="/privacidad"
 								className="hover:text-primary uppercase transition-colors"
 							>
 								Privacidad

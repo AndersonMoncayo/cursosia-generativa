@@ -82,9 +82,10 @@ export default function Register() {
 
 						<div className="p-8">
 							<div className="text-center mb-8">
-								<h2 className="text-4xl font-black text-black uppercase tracking-tighter mb-2">
+								<h1 className="sr-only">Crear Cuenta en CursosIA Generativa</h1>
+								<p className="text-4xl font-black text-black uppercase tracking-tighter mb-2">
 									Nuevo_Nodo
-								</h2>
+								</p>
 								<p className="text-slate-500 font-bold uppercase text-xs tracking-widest">
 									Secure Connection Required
 								</p>

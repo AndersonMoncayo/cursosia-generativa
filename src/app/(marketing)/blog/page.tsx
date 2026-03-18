@@ -10,6 +10,19 @@ export const metadata: Metadata = {
 	description:
 		"Recursos, tutoriales y noticias sobre IA Generativa. ChatGPT, Claude, N8N, automatizaciones y casos de uso reales.",
 	alternates: { canonical: "https://cursosia-generativa.vercel.app/blog" },
+	openGraph: {
+		title: "Blog IA Generativa | CursosIA Generativa",
+		description:
+			"Recursos, tutoriales y noticias sobre IA Generativa. ChatGPT, Claude, N8N y automatizaciones reales.",
+		url: "https://cursosia-generativa.vercel.app/blog",
+		images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Blog IA Generativa | CursosIA Generativa",
+		description:
+			"Recursos, tutoriales y noticias sobre IA Generativa. ChatGPT, Claude, N8N y automatizaciones reales.",
+	},
 };
 
 export const revalidate = 3600; // ISR

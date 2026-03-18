@@ -9,6 +9,19 @@ export const metadata: Metadata = {
 	description:
 		"Sin suscripciones trampa. Pago unico o por modulo. Starter gratis, Pro $47 por modulo, Lifetime $197. Acceso de por vida.",
 	alternates: { canonical: "https://cursosia-generativa.vercel.app/precios" },
+	openGraph: {
+		title: "Planes y Precios | CursosIA Generativa",
+		description:
+			"Sin suscripciones trampa. Starter gratis, Pro $47/módulo, Lifetime $197. Acceso de por vida.",
+		url: "https://cursosia-generativa.vercel.app/precios",
+		images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Planes y Precios | CursosIA Generativa",
+		description:
+			"Sin suscripciones trampa. Starter gratis, Pro $47/módulo, Lifetime $197.",
+	},
 };
 
 export default function Pricing() {
