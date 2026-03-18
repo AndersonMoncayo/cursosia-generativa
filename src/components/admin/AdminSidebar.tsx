@@ -2,16 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 
 export function AdminSidebar() {
 	const pathname = usePathname();
-
-	const handleLogout = async () => {
-		const supabase = createClient();
-		await supabase.auth.signOut();
-		window.location.href = "/login";
-	};
 
 	const navItems = [
 		{ name: "RESUMEN", href: "/admin" },
@@ -66,16 +59,13 @@ export function AdminSidebar() {
 				})}
 			</nav>
 
-			<div
-				className="p-4 border-t-4 border-black"
-				data-purpose="sidebar-footer"
-			>
-				<button
-					onClick={handleLogout}
-					className="w-full py-2 bg-red-500 brutalist-border brutalist-shadow font-bold text-black text-xs hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+			<div className="p-4 border-t-4 border-black">
+				<Link
+					href="/dashboard"
+					className="block w-full px-4 py-3 brutalist-border text-sm font-bold text-white hover:bg-zinc-800 transition-all text-center"
 				>
-					LOG_OUT
-				</button>
+					← DASHBOARD
+				</Link>
 			</div>
 		</aside>
 	);
