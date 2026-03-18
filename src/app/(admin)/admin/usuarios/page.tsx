@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { UserListClient } from "./UserListClient";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminUsuariosPage() {
 	const supabase = await createClient();
@@ -29,7 +31,15 @@ export default async function AdminUsuariosPage() {
 		.order("created_at", { ascending: false });
 
 	return (
-		<div className="max-w-6xl mx-auto pb-12">
+		<div className="pb-12">
+			<div className="mb-6">
+				<Link
+					href="/admin"
+					className="text-white hover:text-primary font-bold text-sm tracking-widest flex items-center gap-2 w-fit"
+				>
+					← VOLVER AL DASHBOARD
+				</Link>
+			</div>
 			<header
 				className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-4"
 				data-purpose="admin-header"

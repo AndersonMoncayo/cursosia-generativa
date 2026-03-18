@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminPostsPage() {
 	const supabase = await createClient();
@@ -32,7 +33,15 @@ export default async function AdminPostsPage() {
 	const draftPosts = posts?.filter((p) => !p.is_published).length || 0;
 
 	return (
-		<div className="max-w-6xl mx-auto pb-12">
+		<div className="pb-12">
+			<div className="mb-6">
+				<Link
+					href="/admin"
+					className="text-white hover:text-primary font-bold text-sm tracking-widest flex items-center gap-2 w-fit"
+				>
+					← VOLVER AL DASHBOARD
+				</Link>
+			</div>
 			{/* BEGIN: Header Section */}
 			<header
 				className="flex flex-col md:flex-row justify-between md:items-center mb-12 bg-white text-black p-6 brutalist-border brutalist-shadow"

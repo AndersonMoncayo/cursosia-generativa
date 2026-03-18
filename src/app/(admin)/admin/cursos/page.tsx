@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { CourseListClient } from "./CourseListClient";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminCursosPage() {
 	const supabase = await createClient();
@@ -31,7 +32,15 @@ export default async function AdminCursosPage() {
 		.order("created_at", { ascending: false });
 
 	return (
-		<div className="max-w-[1200px] mx-auto pb-12">
+		<div className="pb-12">
+			<div className="mb-6">
+				<Link
+					href="/admin"
+					className="text-white hover:text-primary font-bold text-sm tracking-widest flex items-center gap-2 w-fit"
+				>
+					← VOLVER AL DASHBOARD
+				</Link>
+			</div>
 			{/* BEGIN: Header */}
 			<header
 				className="flex flex-col md:flex-row justify-between md:items-center mb-12 gap-6"

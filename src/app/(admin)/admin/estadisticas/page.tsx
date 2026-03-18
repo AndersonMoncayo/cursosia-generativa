@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminEstadisticasPage() {
 	const supabase = await createClient();
@@ -52,7 +54,15 @@ export default async function AdminEstadisticasPage() {
 		.slice(0, 5);
 
 	return (
-		<div className="max-w-6xl mx-auto pb-12">
+		<div className="pb-12">
+			<div className="mb-6">
+				<Link
+					href="/admin"
+					className="text-white hover:text-primary font-bold text-sm tracking-widest flex items-center gap-2 w-fit"
+				>
+					← VOLVER AL DASHBOARD
+				</Link>
+			</div>
 			{/* BEGIN: Header Section */}
 			<header
 				className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6"

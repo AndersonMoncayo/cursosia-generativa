@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CourseForm } from "../CourseForm";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function NuevoCursoPage() {
 	const supabase = await createClient();
@@ -22,7 +24,15 @@ export default async function NuevoCursoPage() {
 	}
 
 	return (
-		<div className="max-w-5xl mx-auto pb-12">
+		<div className="pb-12">
+			<div className="mb-6">
+				<Link
+					href="/admin/cursos"
+					className="text-white hover:text-primary font-bold text-sm tracking-widest flex items-center gap-2 w-fit"
+				>
+					← VOLVER A CURSOS
+				</Link>
+			</div>
 			<header className="mb-12" data-purpose="main-header">
 				<h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white uppercase italic">
 					NUEVO_CURSO

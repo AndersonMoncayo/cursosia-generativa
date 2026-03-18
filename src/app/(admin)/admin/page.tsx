@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminDashboard() {
 	const supabase = await createClient();
@@ -48,7 +49,7 @@ export default async function AdminDashboard() {
 	]);
 
 	return (
-		<div className="max-w-[1200px] mx-auto space-y-8">
+		<div className="space-y-8">
 			{/* BEGIN: HeaderSection */}
 			<header className="mb-10" data-purpose="main-header">
 				<h2 className="text-3xl font-black text-white tracking-tighter">
