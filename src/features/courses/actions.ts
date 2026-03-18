@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { z } from 'zod'
 import { Course } from '@/types/database.types'
 
@@ -72,7 +73,8 @@ export async function createCourse(data: z.infer<typeof courseSchema>): Promise<
 
   const payload = parsed.data
 
-  const { data: insertedCourse, error } = await supabase
+  const adminClient = createAdminClient()
+  const { data: insertedCourse, error } = await adminClient
     .from('courses')
     .upsert({
       title: payload.title,
@@ -118,12 +120,13 @@ export async function uploadCourseImage(formData: FormData): Promise<ActionResul
   const fileExt = file.name.split('.').pop()
   const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
   
-  const { error: uploadError } = await supabase.storage.from('courses').upload(fileName, file)
+  const adminClient = createAdminClient()
+  const { error: uploadError } = await adminClient.storage.from('courses').upload(fileName, file)
   if (uploadError) {
     return { success: false, error: `Error uploading image: ${uploadError.message}. Nota: el bucket 'courses' debe existir manualmente.` }
   }
 
-  const { data: publicUrlData } = supabase.storage.from('courses').getPublicUrl(fileName)
+  const { data: publicUrlData } = adminClient.storage.from('courses').getPublicUrl(fileName)
   
   return { success: true, data: { url: publicUrlData.publicUrl } }
 }

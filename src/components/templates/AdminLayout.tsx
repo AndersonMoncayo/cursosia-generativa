@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard,
@@ -91,7 +92,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white font-[Space_Grotesk,sans-serif] flex">
+    <>
+      <div className="min-h-screen bg-[#1a1a1a] text-white font-[Space_Grotesk,sans-serif] flex">
       {/* Sidebar — fixed desktop, hidden mobile */}
       <aside className="hidden lg:flex w-60 shrink-0 h-screen sticky top-0">
         <SidebarContent pathname={pathname} />
@@ -137,5 +139,24 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">{children}</main>
       </div>
     </div>
+    <Toaster
+      position="top-right"
+      toastOptions={{
+        style: {
+          background: '#1a1a1a',
+          color: '#ffffff',
+          border: '2px solid #1acb5b',
+          fontFamily: 'Space Grotesk',
+          fontWeight: 'bold',
+        },
+        success: {
+          iconTheme: { primary: '#1acb5b', secondary: '#000' },
+        },
+        error: {
+          iconTheme: { primary: '#ff4444', secondary: '#000' },
+        },
+      }}
+    />
+    </>
   )
 }
