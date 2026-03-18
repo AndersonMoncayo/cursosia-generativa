@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Save, X } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { createClient } from '@/lib/supabase/client'
+import { createCourse, uploadCourseImage } from '@/features/courses/actions'
 
 export default function NuevoCurso() {
   const router = useRouter()
-  const supabase = createClient()
   const [loading, setLoading] = useState(false)
+  
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -18,7 +18,6 @@ export default function NuevoCurso() {
     level: 'beginner',
     duration_hours: 0,
     price: 0,
-    thumbnail_url: '',
     image_url: '',
     instructor: '',
     is_published: false
@@ -39,7 +38,7 @@ export default function NuevoCurso() {
       const selectedFile = e.target.files[0]
       const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']
       if (!tiposPermitidos.includes(selectedFile.type)) {
-        toast.error('Solo se permiten imagenes JPG, PNG, WEBP o GIF')
+        toast.error('Solo se permiten imágenes JPG, PNG, WEBP o GIF')
         return
       }
       setFile(selectedFile)
@@ -53,28 +52,24 @@ export default function NuevoCurso() {
       let finalImageUrl = formData.image_url
 
       if (file) {
-        const fileExt = file.name.split('.').pop()
-        const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
-        const { error: uploadError } = await supabase.storage.from('course-images').upload(fileName, file)
-        if (uploadError) throw uploadError
+        const uploadFormData = new FormData()
+        uploadFormData.append('file', file)
         
-        const { data: { publicUrl } } = supabase.storage.from('course-images').getPublicUrl(fileName)
-        finalImageUrl = publicUrl
+        const uploadRes = await uploadCourseImage(uploadFormData)
+        if (!uploadRes.success || !uploadRes.data?.url) {
+          throw new Error(uploadRes.error || 'Error al subir la imagen')
+        }
+        finalImageUrl = uploadRes.data.url
       }
 
-      const res = await fetch('/api/admin/courses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          image_url: finalImageUrl,
-          thumbnail_url: finalImageUrl
-        })
+      const res = await createCourse({
+        ...formData,
+        image_url: finalImageUrl,
+        level: formData.level as 'beginner' | 'intermediate' | 'advanced'
       })
 
-      const result = await res.json()
-      if (!res.ok || !result.success) {
-        throw new Error(result.error || 'Error al crear el curso')
+      if (!res.success) {
+        throw new Error(res.error || 'Error al crear el curso')
       }
 
       toast.success('Curso creado exitosamente')
