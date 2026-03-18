@@ -71,6 +71,7 @@ export async function createCourse(
 		.select("role")
 		.eq("id", user.id)
 		.single();
+
 	if (profile?.role !== "admin" && profile?.role !== "superadmin") {
 		return { success: false, error: "Forbidden. Admin role required." };
 	}
@@ -84,37 +85,34 @@ export async function createCourse(
 	}
 
 	const payload = parsed.data;
-
 	const adminClient = createAdminClient();
+
+	// FIX: usar INSERT directo en lugar de upsert con ignoreDuplicates:true
+	// El upsert anterior silenciaba errores de slug duplicado sin retornar datos
 	const { data: insertedCourse, error } = await adminClient
 		.from("courses")
-		.upsert(
-			{
-				title: payload.title,
-				slug: payload.slug,
-				description: payload.description,
-				price: payload.price,
-				duration_hours: Math.floor(payload.duration_hours),
-				level: payload.level,
-				is_published: payload.is_published,
-				thumbnail_url: payload.image_url || null,
-				creator_id: user.id,
-			},
-			{ onConflict: "slug", ignoreDuplicates: true },
-		)
+		.insert({
+			title: payload.title,
+			slug: payload.slug,
+			description: payload.description,
+			price: payload.price,
+			duration_hours: Math.floor(payload.duration_hours),
+			level: payload.level,
+			is_published: payload.is_published,
+			thumbnail_url: payload.image_url || null,
+			creator_id: user.id,
+		})
 		.select("*")
 		.single();
 
 	if (error) {
+		if (error.code === "23505") {
+			return {
+				success: false,
+				error: `El slug "${payload.slug}" ya existe. Cambia el título o el slug.`,
+			};
+		}
 		return { success: false, error: error.message };
-	}
-
-	if (!insertedCourse) {
-		return {
-			success: false,
-			error:
-				"El curso con este slug probablemente ya existe (ON CONFLICT DO NOTHING aplicó).",
-		};
 	}
 
 	return { success: true, data: insertedCourse };
@@ -137,6 +135,7 @@ export async function uploadCourseImage(
 		.select("role")
 		.eq("id", user.id)
 		.single();
+
 	if (profile?.role !== "admin" && profile?.role !== "superadmin") {
 		return { success: false, error: "Forbidden" };
 	}
@@ -151,6 +150,7 @@ export async function uploadCourseImage(
 	const { error: uploadError } = await adminClient.storage
 		.from("courses")
 		.upload(fileName, file);
+
 	if (uploadError) {
 		return {
 			success: false,
@@ -170,12 +170,15 @@ export async function deleteCourse(id: string): Promise<ActionResult<void>> {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
+
 	if (!user) return { success: false, error: "Unauthorized" };
+
 	const { data: profile } = await supabase
 		.from("profiles")
 		.select("role")
 		.eq("id", user.id)
 		.single();
+
 	if (profile?.role !== "admin" && profile?.role !== "superadmin")
 		return { success: false, error: "Forbidden" };
 
@@ -197,12 +200,15 @@ export async function togglePublishCourse(
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
+
 	if (!user) return { success: false, error: "Unauthorized" };
+
 	const { data: profile } = await supabase
 		.from("profiles")
 		.select("role")
 		.eq("id", user.id)
 		.single();
+
 	if (profile?.role !== "admin" && profile?.role !== "superadmin")
 		return { success: false, error: "Forbidden" };
 
@@ -226,12 +232,15 @@ export async function updateCourse(
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
+
 	if (!user) return { success: false, error: "Unauthorized" };
+
 	const { data: profile } = await supabase
 		.from("profiles")
 		.select("role")
 		.eq("id", user.id)
 		.single();
+
 	if (profile?.role !== "admin" && profile?.role !== "superadmin")
 		return { success: false, error: "Forbidden" };
 
@@ -243,12 +252,13 @@ export async function updateCourse(
 		};
 
 	const payload = parsed.data;
-	const updateData: any = { ...payload };
+	const updateData: Record<string, unknown> = { ...payload };
 
 	if (payload.image_url !== undefined) {
 		updateData.thumbnail_url = payload.image_url;
 		delete updateData.image_url;
 	}
+
 	if (payload.duration_hours !== undefined) {
 		updateData.duration_hours = Math.floor(payload.duration_hours);
 	}
