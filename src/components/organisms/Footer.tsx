@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
 					<ul className="space-y-3 font-bold text-sm text-slate-400">
 						<li>
 							<Link
-								href="/faq"
+								href="/"
 								className="hover:text-primary uppercase transition-colors"
 							>
 								FAQ
@@ -94,7 +94,7 @@ export const Footer: React.FC = () => {
 						</li>
 						<li>
 							<Link
-								href="/terminos"
+								href="/"
 								className="hover:text-primary uppercase transition-colors"
 							>
 								Términos de Servicio
@@ -102,7 +102,7 @@ export const Footer: React.FC = () => {
 						</li>
 						<li>
 							<Link
-								href="/privacidad"
+								href="/"
 								className="hover:text-primary uppercase transition-colors"
 							>
 								Privacidad
